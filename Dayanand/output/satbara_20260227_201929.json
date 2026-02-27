@@ -1,0 +1,131 @@
+{
+    "document_type": "7/12 Extract",
+    "confidence_score": 0.0,
+    "validation_status": true,
+    "data": {
+        "village": "Gauvarai",
+        "taluka": "Kumdal",
+        "district": "Sindhudurg",
+        "ulpin": "28523757841",
+        "survey_number": "982",
+        "total_area": "1.68.50",
+        "transfer_number": "399",
+        "transfer_date": "8/12/2025",
+        "owners": [
+            {
+                "owner_name": "Rajaram Bhanu Gavde Clan Name and Section",
+                "share_number": "1"
+            },
+            {
+                "owner_name": "Pundalik Bhivaji Gavde",
+                "share_number": "1"
+            },
+            {
+                "owner_name": "Sambhaji Balwant Gavde",
+                "share_number": "1"
+            },
+            {
+                "owner_name": "Other Rights Shridhar Ravji Gavde",
+                "share_number": "1"
+            },
+            {
+                "owner_name": "Dilip Lavu Gavde",
+                "share_number": "122"
+            },
+            {
+                "owner_name": "Santosh Lavuu Gavde",
+                "share_number": "122"
+            },
+            {
+                "owner_name": "Laxman Lavuu Gavde",
+                "share_number": "122"
+            },
+            {
+                "owner_name": "Manisha Lavuu Gavde Urmila Lavuu Gavde",
+                "share_number": "122"
+            },
+            {
+                "owner_name": "Ravindra Viththal Gavde",
+                "share_number": "750"
+            },
+            {
+                "owner_name": "Prasad Vitthal Gawde",
+                "share_number": "750"
+            },
+            {
+                "owner_name": "Lina Laxman Parab",
+                "share_number": "750"
+            },
+            {
+                "owner_name": "Shubhangi Vinod Gawde",
+                "share_number": "750"
+            },
+            {
+                "owner_name": "Vijay Tukaram Gawde",
+                "share_number": "841"
+            },
+            {
+                "owner_name": "Ashok Tukaram Gawde",
+                "share_number": "761"
+            },
+            {
+                "owner_name": "Satyawan Balkrishna Gawde",
+                "share_number": "767"
+            },
+            {
+                "owner_name": "Vaishali Dnyaneshwar Jagtap",
+                "share_number": "793"
+            },
+            {
+                "owner_name": "Deepak Dnyaneshwar Jagtap",
+                "share_number": "793"
+            },
+            {
+                "owner_name": "Namrata Namdev Parte",
+                "share_number": "793"
+            },
+            {
+                "owner_name": "Sharda Namdev Jagtap",
+                "share_number": "812"
+            },
+            {
+                "owner_name": "Prasad Namdev Jagtap",
+                "share_number": "812"
+            },
+            {
+                "owner_name": "Prajakta Prakash Pokale",
+                "share_number": "812"
+            },
+            {
+                "owner_name": "Hariuchandra Jagtap Madhavi Arjun Jagtap",
+                "share_number": "812"
+            },
+            {
+                "owner_name": "Shreya Vinyal Thukurul",
+                "share_number": "1132"
+            },
+            {
+                "owner_name": "Prachi Pankaj Chavan",
+                "share_number": "1132"
+            },
+            {
+                "owner_name": "R Me Vaibhav Sawant",
+                "share_number": "1132"
+            },
+            {
+                "owner_name": "Gangaram Keshav Gawde",
+                "share_number": "1140"
+            },
+            {
+                "owner_name": "Taramati Gangaram Gawde",
+                "share_number": "1140"
+            },
+            {
+                "owner_name": "Janardan Gangaram Gawde",
+                "share_number": "1140"
+            }
+        ],
+        "crop_years": [],
+        "crop_types": []
+    }
+}
