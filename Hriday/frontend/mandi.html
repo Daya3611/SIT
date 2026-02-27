@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mandi Prices — AgriPayChain</title>
+    <meta name="description" content="Live crop prices from mandis across India with ML anomaly alerts." />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js" defer></script>
+    <script src="js/main.js" defer></script>
+
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, var(--clr-primary-dark) 0%, var(--clr-primary) 100%);
+            padding: 140px 0 60px;
+            color: #fff;
+        }
+
+        .mandi-layout {
+            padding: 48px 0;
+        }
+
+        .mandi-controls {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .mandi-controls .form-group {
+            flex: 1;
+            min-width: 200px;
+            max-width: 320px;
+        }
+
+        /* Anomaly Banner */
+        .anomaly-banner {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            display: none;
+        }
+
+        .anomaly-banner.active {
+            display: flex;
+            animation: slideUp 0.4s ease;
+        }
+
+        .anomaly-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .anomaly-text h4 {
+            color: #b91c1c;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .anomaly-text p {
+            font-size: 0.9rem;
+            color: #7f1d1d;
+        }
+
+        /* Highlights */
+        .price-highlights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .ph-card {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .ph-card p {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--clr-text-muted);
+            margin-bottom: 8px;
+        }
+
+        .ph-card h3 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--clr-primary);
+        }
+
+        .ph-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .trend-up {
+            color: var(--clr-high);
+        }
+
+        /* Price up is bad for buyers, good for farmers. Using green for farmers. */
+        .trend-up {
+            color: var(--clr-low);
+        }
+
+        .trend-down {
+            color: var(--clr-high);
+        }
+
+        /* Chart fake */
+        .chart-box {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 48px;
+            height: 380px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-bars {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            padding-top: 24px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: rgba(245, 166, 35, 0.2);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: height 1s ease;
+        }
+
+        .chart-bar:hover {
+            background: rgba(245, 166, 35, 0.5);
+        }
+
+        .chart-bar.anomaly {
+            background: rgba(239, 68, 68, 0.6);
+        }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid var(--clr-border);
+            font-size: 0.75rem;
+            color: var(--clr-text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .price-highlights {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar__inner">
+            <a href="index.html" class="navbar__logo">🌾 Agri<span>Pay</span>Chain</a>
+            <ul class="navbar__links">
+                <li><a href="loans.html">Loans</a></li>
+                <li><a href="subsidies.html">Subsidies</a></li>
+                <li><a href="mandi.html" class="active">Mandi Prices</a></li>
+                <li><a href="risk.html">Risk Checker</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+            <a href="auth.html" class="navbar__cta">Login</a>
+            <div class="navbar__hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="page-hero">
+        <div class="container">
+            <p class="section-label" data-reveal="up">Market Intelligence</p>
+            <h1 data-reveal="up">Live Mandi Prices</h1>
+            <p data-reveal="up">Track daily crop prices across Indian markets. Powered by ML to automatically alert you
+                of abnormal price crashes or spikes.</p>
+        </div>
+    </div>
+
+    <div class="container mandi-layout">
+
+        <div class="anomaly-banner" id="anomaly-banner">
+            <div class="anomaly-icon">🚨</div>
+            <div class="anomaly-text">
+                <h4>Price Anomaly Detected!</h4>
+                <p id="anomaly-msg">Unusual 18% price drop for Onion in Lasalgaon Mandi over the last 48 hours. Suggest
+                    holding stock if possible.</p>
+            </div>
+        </div>
+
+        <div class="mandi-controls" data-reveal="up">
+            <div class="form-group">
+                <label class="form-label">Select Crop</label>
+                <select class="form-control" id="sel-crop" onchange="updateData()">
+                    <option value="wheat">Wheat</option>
+                    <option value="rice">Rice (Paddy)</option>
+                    <option value="onion" selected>Onion</option>
+                    <option value="cotton">Cotton</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Select Mandi</label>
+                <select class="form-control" id="sel-mandi" onchange="updateData()">
+                    <option>Lasalgaon (MH)</option>
+                    <option>Azadpur (DL)</option>
+                    <option>Karnal (HR)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" id="sel-date" value="2026-02-27" disabled />
+            </div>
+        </div>
+
+        <!-- Highlights -->
+        <div class="price-highlights" data-stagger>
+            <div class="ph-card">
+                <p>Min Price</p>
+                <h3 id="p-min">₹1,850</h3>
+                <span class="ph-trend trend-down">↓ 2.4% vs yesterday</span>
+            </div>
+            <div class="ph-card">
+                <p>Modal (Average) Price</p>
+                <h3 id="p-mod">₹2,100</h3>
+                <span class="ph-trend trend-down" id="p-trend">↓ 4.1% vs yesterday</span>
+            </div>
+            <div class="ph-card">
+                <p>Max Price</p>
+                <h3 id="p-max">₹2,400</h3>
+                <span class="ph-trend trend-up">↑ 1.2% vs yesterday</span>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="chart-box" data-reveal="up">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                <h4 style="font-size:1.1rem">30-Day Price Trend (Modal Price ₹/Quintal)</h4>
+                <span class="badge badge--high" id="badge-alert">Anomaly Active</span>
+            </div>
+            <div class="chart-bars" id="chart-bars"></div>
+            <div class="chart-labels">
+                <span>30 days ago</span>
+                <span>15 days ago</span>
+                <span>Today</span>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrap" data-reveal="up">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Arrivals (Tonnes)</th>
+                        <th>Min Price (₹)</th>
+                        <th>Max Price (₹)</th>
+                        <th>Modal Price (₹)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="mandi-table">
+                    <!-- JS -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        // Fake data generator
+        function generateBars(isAnomaly) {
+            const bars = document.getElementById('chart-bars');
+            bars.innerHTML = '';
+            let base = 60;
+            for (let i = 0; i < 30; i++) {
+                let h = base + (Math.random() * 20 - 10);
+                base = isAnomaly && i > 25 ? h - 15 : h; // sharp drop if anomaly
+
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar' + (isAnomaly && i > 26 ? ' anomaly' : '');
+                bar.style.height = `${Math.max(10, h)}%`;
+                bar.title = `Day ${i + 1}`;
+                bars.appendChild(bar);
+            }
+        }
+
+        function updateData() {
+            const crop = document.getElementById('sel-crop').value;
+            const banner = document.getElementById('anomaly-banner');
+            const badge = document.getElementById('badge-alert');
+
+            let pMin, pMod, pMax, pTrend, isAnomaly = false;
+
+            if (crop === 'onion') {
+                pMin = '1,250'; pMod = '1,400'; pMax = '1,700';
+                pTrend = '↓ 18.4% vs yesterday';
+                isAnomaly = true;
+                document.querySelector('.trend-down').textContent = '↓ 12.4%';
+                document.getElementById('p-trend').className = 'ph-trend trend-down';
+                document.getElementById('p-trend').textContent = pTrend;
+            } else if (crop === 'wheat') {
+                pMin = '2,150'; pMod = '2,275'; pMax = '2,400';
+                pTrend = '↑ 1.2% vs yesterday';
+                document.getElementById('p-trend').className = 'ph-trend trend-up';
+                document.getElementById('p-trend').textContent = pTrend;
+            } else {
+                pMin = '3,100'; pMod = '3,250'; pMax = '3,400';
+                pTrend = '— 0.0% vs yesterday';
+                document.getElementById('p-trend').className = 'ph-trend';
+                document.getElementById('p-trend').textContent = pTrend;
+            }
+
+            document.getElementById('p-min').textContent = '₹' + pMin;
+            document.getElementById('p-mod').textContent = '₹' + pMod;
+            document.getElementById('p-max').textContent = '₹' + pMax;
+
+            if (isAnomaly) {
+                banner.classList.add('active');
+                badge.style.display = 'inline-block';
+            } else {
+                banner.classList.remove('active');
+                badge.style.display = 'none';
+            }
+
+            generateBars(isAnomaly);
+
+            // table
+            let html = '';
+            let pr = parseInt(pMod.replace(',', ''));
+            for (let i = 0; i < 7; i++) {
+                let date = new Date(2026, 1, 27 - i).toISOString().split('T')[0];
+                let status = isAnomaly && i < 2 ? '<span class="badge badge--high">Crash</span>' : '<span class="badge badge--green">Normal</span>';
+                let arr = Math.floor(Math.random() * 500) + 100;
+
+                let dMin = pr - 150;
+                let dMax = pr + 150;
+
+                html += `<tr>
+          <td>${date}</td>
+          <td>${arr}</td>
+          <td>₹${dMin}</td>
+          <td>₹${dMax}</td>
+          <td style="font-weight:700">₹${pr}</td>
+          <td>${status}</td>
+        </tr>`;
+
+                if (isAnomaly && i < 2) pr += 300; // price was higher in past
+                else pr += (Math.random() > 0.5 ? 20 : -20);
+            }
+            document.getElementById('mandi-table').innerHTML = html;
+        }
+
+        updateData();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subsidy Board — AgriPayChain</title>
+    <meta name="description" content="Discover government agricultural subsidies and find out your eligibility." />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js" defer></script>
+    <script src="js/main.js" defer></script>
+
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, var(--clr-primary-dark) 0%, var(--clr-primary) 100%);
+            padding: 140px 0 60px;
+            color: #fff;
+        }
+
+        .page-hero h1 {
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 520px;
+        }
+
+        /* Layout */
+        .subsidy-layout {
+            padding: 48px 0;
+        }
+
+        /* Filters (Top Bar) */
+        .subsidy-filters {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            border-radius: var(--radius-full);
+            border: 1.5px solid var(--clr-border);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--clr-primary);
+        }
+
+        .search-box span {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+        }
+
+        /* Grid */
+        .subsidy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .subsidy-card {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.25s, transform 0.25s;
+        }
+
+        .subsidy-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .subsidy-card__head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .sc-dept {
+            font-size: 0.75rem;
+            color: var(--clr-text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sc-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--clr-text);
+            line-height: 1.3;
+        }
+
+        .subsidy-card__body {
+            flex: 1;
+            margin: 16px 0;
+            font-size: 0.9rem;
+            color: var(--clr-text-muted);
+        }
+
+        .subsidy-card__foot {
+            border-top: 1px solid var(--clr-border);
+            padding-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sc-amount {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--clr-primary);
+        }
+
+        .sc-benefit {
+            font-size: 0.75rem;
+            color: var(--clr-text-muted);
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar__inner">
+            <a href="index.html" class="navbar__logo">🌾 Agri<span>Pay</span>Chain</a>
+            <ul class="navbar__links">
+                <li><a href="loans.html">Loans</a></li>
+                <li><a href="subsidies.html" class="active">Subsidies</a></li>
+                <li><a href="mandi.html">Mandi Prices</a></li>
+                <li><a href="risk.html">Risk Checker</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+            <a href="auth.html" class="navbar__cta">Login</a>
+            <div class="navbar__hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="page-hero">
+        <div class="container">
+            <p class="section-label" data-reveal="up">Subsidy Board</p>
+            <h1 data-reveal="up">Find Government Support</h1>
+            <p data-reveal="up">Discover financial aid for equipment, seeds, and irrigation. Check if you qualify based
+                on your profile instantly.</p>
+        </div>
+    </div>
+
+    <div class="container subsidy-layout">
+
+        <!-- Filters -->
+        <div class="subsidy-filters" data-reveal="up">
+            <div class="tabs" id="category-tabs"
+                style="background:var(--clr-surface);border:1px solid var(--clr-border)">
+                <button class="tab active" data-cat="all">All</button>
+                <button class="tab" data-cat="equipment">Equipment</button>
+                <button class="tab" data-cat="seeds">Seeds & Fertilizer</button>
+                <button class="tab" data-cat="irrigation">Irrigation</button>
+            </div>
+
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" id="search-input" placeholder="Search by scheme name or keyword..."
+                    autocomplete="off" />
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="subsidy-grid" id="subsidy-grid" data-stagger>
+            <!-- JS Render -->
+        </div>
+
+    </div>
+
+    <script>
+        const SUBSIDIES = [
+            { id: 1, cat: 'equipment', dept: 'Ministry of Agriculture', title: 'Sub-Mission on Agricultural Mechanization (SMAM)', desc: 'Financial assistance for procurement of agriculture machinery & equipment.', amount: 'Up to 80%', bene: 'Subsidy on cost', status: 'high' },
+            { id: 2, cat: 'irrigation', dept: 'PMKSY', title: 'Per Drop More Crop (Micro Irrigation)', desc: 'Subsidy for installing Drip and Sprinkler Irrigation systems.', amount: '55%', bene: 'For small/marginal farmers', status: 'high' },
+            { id: 3, cat: 'seeds', dept: 'National Food Security Mission', title: 'Seed Distribution Subsidy', desc: 'Distribution of high yielding variety seeds to farmers at subsidized rates.', amount: '₹2000', bene: 'Per quintal', status: 'medium' },
+            { id: 4, cat: 'equipment', dept: 'State Gov (Maha)', title: 'Tractor Purchase Subsidy', desc: 'State specific scheme providing direct subsidy on purchase of new tractors.', amount: '1.25 Lakhs', bene: 'Max limit', status: 'low' },
+            { id: 5, cat: 'seeds', dept: 'DBT Agriculture', title: 'Fertilizer Subsidy (Urea)', desc: 'Direct benefit transfer for purchasing fertilizers.', amount: '100%', bene: 'Controlled retail price', status: 'high' },
+            { id: 6, cat: 'irrigation', dept: 'PM-KUSUM', title: 'Solar Pump Yojana', desc: 'Setting up standalone solar powered agriculture pumps.', amount: '60%', bene: 'Subsidy (30% Centre + 30% State)', status: 'medium' },
+            { id: 7, cat: 'equipment', dept: 'Horticulture Board', title: 'Cold Storage Infrastructure', desc: 'Capital investment subsidy for construction/expansion of cold storage.', amount: '35%', bene: 'In general areas', status: 'low' },
+            { id: 8, cat: 'seeds', dept: 'Seed Village Programme', title: 'Certified Seed Production', desc: 'Financial assistance to farmers producing certified seeds.', amount: '50%', bene: 'Cost of seeds', status: 'high' },
+        ];
+
+        function renderSubsidies(data) {
+            const grid = document.getElementById('subsidy-grid');
+            if (!data.length) { grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted)">No subsidies found.</p>'; return; }
+
+            grid.innerHTML = data.map(s => `
+        <div class="subsidy-card">
+          <div class="subsidy-card__head">
+            <div>
+              <div class="sc-dept">${s.dept}</div>
+              <div class="sc-title">${s.title}</div>
+            </div>
+            ${s.status === 'high' ? '<span class="badge badge--low" title="Likely Eligible">✓</span>' :
+                    s.status === 'medium' ? '<span class="badge badge--medium" title="Check Required">?</span>' :
+                        '<span class="badge badge--high" title="Not Eligible">×</span>'}
+          </div>
+          <div class="subsidy-card__body">${s.desc}</div>
+          <div class="subsidy-card__foot">
+            <div>
+              <span class="sc-amount">${s.amount}</span>
+              <span class="sc-benefit">${s.bene}</span>
+            </div>
+            <button class="btn btn--outline btn--sm" style="color:var(--clr-primary);border-color:var(--clr-border)">Details &rarr;</button>
+          </div>
+        </div>
+      `).join('');
+        }
+
+        function applyFilters() {
+            const activeTab = document.querySelector('#category-tabs .tab.active').dataset.cat;
+            const term = document.getElementById('search-input').value.toLowerCase();
+
+            let res = SUBSIDIES;
+            if (activeTab !== 'all') res = res.filter(s => s.cat === activeTab);
+            if (term) res = res.filter(s => s.title.toLowerCase().includes(term) || s.desc.toLowerCase().includes(term));
+
+            renderSubsidies(res);
+        }
+
+        // Tab Listeners
+        document.querySelectorAll('#category-tabs .tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('#category-tabs .tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                applyFilters();
+            });
+        });
+
+        document.getElementById('search-input').addEventListener('input', applyFilters);
+
+        // Initial render
+        renderSubsidies(SUBSIDIES);
+    </script>
+
+</body>
+
+</html>

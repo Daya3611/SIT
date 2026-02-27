@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriPayChain — Farmer Loans & Subsidy Advisory</title>
+  <meta name="description"
+    content="AgriPayChain helps Indian farmers access loans, subsidies, mandi prices, and payment risk analysis — all in one place." />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+
+  <!-- GSAP + Lenis (high-end only, loaded after perf check in main.js if needed) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+
+  <style>
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: var(--green-dark);
+    }
+
+    /* Overlay gradient */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+          rgba(15, 45, 26, 0.85) 0%,
+          rgba(15, 45, 26, 0.5) 60%,
+          rgba(0, 0, 0, 0.4) 100%);
+      z-index: 1;
+    }
+
+    /* Hero Canvas */
+    .hero-canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      padding: 120px 0 80px;
+    }
+
+    .hero__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245, 166, 35, 0.15);
+      border: 1px solid rgba(245, 166, 35, 0.35);
+      color: var(--clr-accent);
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+    }
+
+    .hero__title {
+      color: #fff;
+      max-width: 680px;
+      margin-bottom: 20px;
+    }
+
+    .hero__desc {
+      color: rgba(240, 244, 240, 0.8);
+      font-size: 1.1rem;
+      max-width: 540px;
+      margin-bottom: 40px;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero__scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+    }
+
+    .hero__scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, rgba(255, 166, 35, 0.8), transparent);
+      animation: scrollLine 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scrollLine {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+
+      50% {
+        opacity: 0.3;
+        transform: scaleY(0.5);
+      }
+    }
+
+    /* ── Stats Bar ── */
+    .stats-bar {
+      background: var(--clr-primary-dark);
+      padding: 48px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .stats-bar__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .stats-bar__divider {
+      width: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      align-self: stretch;
+    }
+
+    /* ── Feature Cards ── */
+    .features__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+    }
+
+    .feature-card {
+      background: var(--clr-surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--clr-border);
+      padding: 32px 28px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card__icon {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+    }
+
+    .feature-card__title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--clr-text);
+    }
+
+    .feature-card__desc {
+      font-size: 0.88rem;
+      color: var(--clr-text-muted);
+      margin-bottom: 20px;
+    }
+
+    .feature-card__link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--clr-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .feature-card__link::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+
+    .feature-card:hover .feature-card__link::after {
+      transform: translateX(4px);
+    }
+
+    /* ── How It Works ── */
+    .hiw {
+      background: var(--clr-bg-dark);
+    }
+
+    .hiw__steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 56px;
+      position: relative;
+    }
+
+    .hiw__steps::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 15%;
+      right: 15%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--clr-accent), transparent);
+    }
+
+    .hiw-step {
+      text-align: center;
+    }
+
+    .hiw-step__num {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent));
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #fff;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(245, 166, 35, 0.3);
+    }
+
+    .hiw-step h4 {
+      color: var(--clr-text-light);
+      margin-bottom: 10px;
+    }
+
+    .hiw-step p {
+      font-size: 0.88rem;
+      max-width: 220px;
+      margin: 0 auto;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .stats-bar__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hiw__steps {
+        grid-template-columns: 1fr;
+      }
+
+      .hiw__steps::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-bar__grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero__actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════ -->
+  <nav class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        🌾 Agri<span>Pay</span>Chain
+      </a>
+      <ul class="navbar__links">
+        <li><a href="loans.html">Loans</a></li>
+        <li><a href="subsidies.html">Subsidies</a></li>
+        <li><a href="mandi.html">Mandi Prices</a></li>
+        <li><a href="risk.html">Risk Checker</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+      <a href="auth.html" class="navbar__cta">Login / Register</a>
+      <div class="navbar__hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════ -->
+  <section class="hero">
+    <!-- Scroll-driven frame sequence -->
+    <canvas class="hero-canvas" id="hero-canvas"></canvas>
+
+    <div class="container hero__content">
+      <div class="hero__tag" data-reveal="up">
+        🇮🇳 &nbsp;Built for Indian Farmers
+      </div>
+
+      <h1 class="hero__title gradient-text" data-reveal="up">
+        Smarter Access to<br />Loans &amp; Subsidies
+      </h1>
+
+      <p class="hero__desc" data-reveal="up">
+        AgriPayChain cuts through the paperwork. Check loan schemes, government
+        subsidies, live mandi prices, and payment risk — all in one place.
+      </p>
+
+      <div class="hero__actions" data-reveal="up">
+        <a href="loans.html" class="btn btn--primary">Explore Loans &rarr;</a>
+        <a href="auth.html" class="btn btn--outline">Get Started Free</a>
+      </div>
+    </div>
+
+    <div class="hero__scroll">
+      <span>SCROLL</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       STATS BAR
+  ═══════════════════════════════════════ -->
+  <section class="stats-bar section--dark">
+    <div class="container">
+      <div class="stats-bar__grid" data-stagger>
+        <div class="stat">
+          <div class="stat__number counter-num" data-count="120" data-suffix="+" id="stat-loans">0+</div>
+          <div class="stat__label">Loan Schemes Listed</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number counter-num" data-count="340" data-suffix="+" id="stat-subsidies">0+</div>
+          <div class="stat__label">Active Subsidies</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number counter-num" data-count="50000" data-suffix="+" id="stat-farmers">0+</div>
+          <div class="stat__label">Farmers Served</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number counter-num" data-count="28" data-suffix=" States" id="stat-states">0</div>
+          <div class="stat__label">State Coverage</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FEATURE CARDS
+  ═══════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center" data-reveal="up">
+        <p class="section-label">What We Offer</p>
+        <h2>Everything a Farmer Needs</h2>
+        <p class="section-desc" style="margin:0 auto;margin-top:12px">
+          From finding the right crop loan to checking if a buyer is trustworthy —
+          we've got all the tools in one dashboard.
+        </p>
+      </div>
+
+      <div class="features__grid" data-stagger>
+        <div class="feature-card" onclick="location.href='loans.html'">
+          <div class="feature-card__icon">💰</div>
+          <h3 class="feature-card__title">Loan Advisory</h3>
+          <p class="feature-card__desc">Browse 120+ loan schemes filtered by crop, bank, and state. Compare interest
+            rates side by side.</p>
+          <span class="feature-card__link">Explore Loans</span>
+        </div>
+
+        <div class="feature-card" onclick="location.href='subsidies.html'">
+          <div class="feature-card__icon">🌾</div>
+          <h3 class="feature-card__title">Subsidy Board</h3>
+          <p class="feature-card__desc">Government subsidies for equipment, seeds, irrigation, and insurance — with
+            eligibility badges.</p>
+          <span class="feature-card__link">View Subsidies</span>
+        </div>
+
+        <div class="feature-card" onclick="location.href='mandi.html'">
+          <div class="feature-card__icon">📊</div>
+          <h3 class="feature-card__title">Mandi Prices</h3>
+          <p class="feature-card__desc">Live crop prices from mandis across India with ML-powered anomaly alerts for
+            unusual spikes.</p>
+          <span class="feature-card__link">Check Prices</span>
+        </div>
+
+        <div class="feature-card" onclick="location.href='risk.html'">
+          <div class="feature-card__icon">⚠️</div>
+          <h3 class="feature-card__title">Risk Checker</h3>
+          <p class="feature-card__desc">AI-powered payment delay prediction and buyer reliability scoring before you
+            sell your crop.</p>
+          <span class="feature-card__link">Check Risk</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       HOW IT WORKS
+  ═══════════════════════════════════════ -->
+  <section class="section hiw section--dark">
+    <div class="container">
+      <div class="text-center" data-reveal="up">
+        <p class="section-label">Simple Process</p>
+        <h2>How It Works</h2>
+      </div>
+
+      <div class="hiw__steps" data-stagger>
+        <div class="hiw-step">
+          <div class="hiw-step__num">1</div>
+          <h4>Register Free</h4>
+          <p>Sign up with your mobile number. No paperwork, no Aadhaar mandatory.</p>
+        </div>
+        <div class="hiw-step">
+          <div class="hiw-step__num">2</div>
+          <h4>Check Eligibility</h4>
+          <p>Enter your crop, state, and land details. We match you to the right schemes instantly.</p>
+        </div>
+        <div class="hiw-step">
+          <div class="hiw-step__num">3</div>
+          <h4>Apply &amp; Track</h4>
+          <p>Apply directly or get guided to the bank. Track your application status from your dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="logo">🌾 Agri<span>Pay</span>Chain</div>
+          <p>Empowering Indian farmers with transparent access to financial tools, government schemes, and market
+            intelligence.</p>
+        </div>
+        <div class="footer__col">
+          <h5>Platform</h5>
+          <a href="loans.html">Loan Advisory</a>
+          <a href="subsidies.html">Subsidy Board</a>
+          <a href="mandi.html">Mandi Prices</a>
+          <a href="risk.html">Risk Checker</a>
+        </div>
+        <div class="footer__col">
+          <h5>Account</h5>
+          <a href="auth.html">Login</a>
+          <a href="auth.html">Register</a>
+          <a href="dashboard.html">Dashboard</a>
+        </div>
+        <div class="footer__col">
+          <h5>About</h5>
+          <a href="#">Our Team</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 AgriPayChain. All rights reserved.</span>
+        <span>Made with ❤️ for Indian Farmers</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GSAP Frame Animation Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (document.documentElement.classList.contains('low-perf')) return; // skip for low end
+
+      const canvas = document.getElementById("hero-canvas");
+      if (!canvas) return;
+
+      const context = canvas.getContext("2d");
+
+      // Set canvas size to match aspect ratio, we'll cover via CSS
+      canvas.width = 1920;
+      canvas.height = 1080;
+
+      const frameCount = 96;
+      const currentFrame = index => (
+        `assets/frames/ezgif-frame-${(index + 1).toString().padStart(3, '0')}.png`
+      );
+
+      const images = [];
+      const imageSeq = { frame: 0 };
+
+      // Preload all frames
+      for (let i = 0; i < frameCount; i++) {
+        const img = new Image();
+        img.src = currentFrame(i);
+        images.push(img);
+      }
+
+      // Draw first frame once loaded
+      images[0].onload = render;
+
+      function render() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        // Draw the current frame, maintaining aspect ratio covering the canvas
+        // This acts like object-fit: cover on the canvas context itself if we needed it,
+        // but we already set object-fit: cover in CSS so we can just draw image at canvas size.
+        context.drawImage(images[imageSeq.frame], 0, 0, canvas.width, canvas.height);
+      }
+
+      // Animate frame sequence on scroll within the hero section
+      gsap.to(imageSeq, {
+        frame: frameCount - 1,
+        snap: "frame",
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".hero",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1, // smooth scrubbing
+          pin: true, // pin the hero section while animating frames
+        },
+        onUpdate: render
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+/* ============================================
+   AgriPayChain — Animations
+   ============================================ */
+
+/* ─── GSAP Reveal Defaults ─── */
+[data-reveal] {
+    opacity: 0;
+}
+
+/* Fade Up */
+[data-reveal="up"] {
+    transform: translateY(40px);
+}
+
+[data-reveal="down"] {
+    transform: translateY(-40px);
+}
+
+[data-reveal="left"] {
+    transform: translateX(-40px);
+}
+
+[data-reveal="right"] {
+    transform: translateX(40px);
+}
+
+[data-reveal="scale"] {
+    transform: scale(0.88);
+}
+
+/* ─── Gradient Text ─── */
+.gradient-text {
+    background: linear-gradient(135deg, #f5a623 0%, #fff 60%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ─── Shimmer (loading state) ─── */
+.shimmer {
+    background: linear-gradient(90deg, var(--clr-border) 25%, rgba(255, 255, 255, 0.6) 50%, var(--clr-border) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0
+    }
+
+    100% {
+        background-position: -200% 0
+    }
+}
+
+/* ─── Floating ─── */
+.float {
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+/* ─── Pulse Glow ─── */
+.pulse-glow {
+    animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(245, 166, 35, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 50px rgba(245, 166, 35, 0.5);
+    }
+}
+
+/* ─── Spinner ─── */
+.spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--clr-border);
+    border-top-color: var(--clr-primary);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ─── Slide In (CSS only, for low-perf) ─── */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.low-perf [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: slideUp 0.5s ease both;
+}
+
+/* ─── Page Transition ─── */
+.page-enter {
+    animation: pageEnter 0.5s var(--transition-slow) both;
+}
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ─── Risk Level Color (animated ring fill) ─── */
+.ring-high {
+    stroke: var(--clr-high);
+}
+
+.ring-medium {
+    stroke: var(--clr-medium);
+}
+
+.ring-low {
+    stroke: var(--clr-low);
+}
+
+/* ─── Counter ─── */
+.counter-num {
+    font-variant-numeric: tabular-nums;
+}

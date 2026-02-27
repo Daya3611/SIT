@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farmer Dashboard — AgriPayChain</title>
+    <meta name="description" content="Your personal farmer command center." />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js" defer></script>
+    <script src="js/main.js" defer></script>
+
+    <style>
+        body {
+            background: var(--clr-bg);
+        }
+
+        .dash-navbar {
+            background: var(--clr-primary-dark);
+            padding: 16px 0;
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+        }
+
+        .dash-navbar .navbar__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dash-navbar .navbar__logo {
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dash-navbar .navbar__logo span {
+            color: var(--clr-accent);
+        }
+
+        .dash-nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .dash-nav-links a {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .dash-nav-links a:hover,
+        .dash-nav-links a.active {
+            color: #fff;
+        }
+
+        .dash-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dash-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--clr-accent);
+            color: var(--clr-primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+        }
+
+        /* Welcome Bar */
+        .welcome-bar {
+            background: #fff;
+            border-bottom: 1px solid var(--clr-border);
+            padding: 32px 0;
+            margin-bottom: 32px;
+        }
+
+        .welcome-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .welcome-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+            color: var(--clr-text);
+        }
+
+        .welcome-text p {
+            font-size: 0.95rem;
+            color: var(--clr-text-muted);
+        }
+
+        .profile-progress {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(26, 71, 42, 0.04);
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(26, 71, 42, 0.1);
+        }
+
+        .pp-bar-bg {
+            width: 140px;
+            height: 8px;
+            background: var(--clr-border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .pp-bar-fill {
+            height: 100%;
+            background: var(--clr-primary);
+            width: 80%;
+        }
+
+        .pp-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .pp-text span {
+            color: var(--clr-primary);
+            font-weight: 800;
+        }
+
+        /* Layout */
+        .dash-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            padding-bottom: 64px;
+        }
+
+        /* Panel */
+        .panel {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .panel-head h3 {
+            font-size: 1.15rem;
+            color: var(--clr-text);
+        }
+
+        .panel-head a {
+            font-size: 0.85rem;
+            color: var(--clr-primary);
+            font-weight: 600;
+        }
+
+        .panel-head a:hover {
+            text-decoration: underline;
+        }
+
+        /* Applications List */
+        .app-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 16px;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--clr-border);
+        }
+
+        .app-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .app-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(245, 166, 35, 0.15);
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-details h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .app-details p {
+            font-size: 0.8rem;
+            color: var(--clr-text-muted);
+        }
+
+        .app-meta {
+            text-align: right;
+        }
+
+        .app-date {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--clr-text-muted);
+            margin-top: 6px;
+        }
+
+        /* Risk Snapshot */
+        .snapshot {
+            text-align: center;
+            padding: 24px 0 16px;
+        }
+
+        .snapshot-gauge {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .snapshot h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .snapshot p {
+            font-size: 0.85rem;
+            color: var(--clr-text-muted);
+            max-width: 240px;
+            margin: 0 auto;
+        }
+
+        .snapshot-meta {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--clr-border);
+            font-size: 0.85rem;
+        }
+
+        .snapshot-meta div span {
+            display: block;
+            font-weight: 700;
+            color: var(--clr-text);
+            font-size: 1.1rem;
+        }
+
+        /* Quick Actions */
+        .qa-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .qa-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--clr-border);
+            background: var(--clr-bg);
+            color: var(--clr-text);
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .qa-btn span {
+            font-size: 1.6rem;
+        }
+
+        .qa-btn:hover {
+            background: rgba(26, 71, 42, 0.04);
+            border-color: var(--clr-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Alert mini */
+        .alert-mini {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            color: #b91c1c;
+            margin-top: 16px;
+        }
+
+        @media (max-width: 900px) {
+            .dash-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .dash-nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="page-enter">
+
+    <!-- Nav -->
+    <nav class="dash-navbar">
+        <div class="container navbar__inner">
+            <a href="index.html" class="navbar__logo">🌾 Agri<span>Pay</span>Chain</a>
+            <div class="dash-nav-links">
+                <a href="loans.html">Loans</a>
+                <a href="subsidies.html">Subsidies</a>
+                <a href="mandi.html">Mandi</a>
+                <a href="risk.html">Risk Engine</a>
+            </div>
+            <div class="dash-profile">
+                <div class="dash-avatar">RP</div>
+                <span>Ramesh Patil</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome -->
+    <div class="welcome-bar">
+        <div class="container welcome-inner">
+            <div class="welcome-text" data-reveal="up">
+                <h1>Welcome back, Ramesh</h1>
+                <p>Nashik, Maharashtra • Farm ID: MH-NSK-4921</p>
+            </div>
+            <div class="profile-progress" data-reveal="left">
+                <div>
+                    <div class="pp-text">Profile setup <span>80%</span></div>
+                    <p style="font-size:0.75rem;color:var(--clr-text-muted);margin-top:2px">Upload 7/12 to reach 100%
+                    </p>
+                </div>
+                <div class="pp-bar-bg">
+                    <div class="pp-bar-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container dash-layout">
+
+        <!-- LEFT COL -->
+        <div class="dash-main" data-reveal="up">
+
+            <!-- Applications Panel -->
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>Active Applications (2)</h3>
+                    <a href="#">View All History</a>
+                </div>
+
+                <div class="app-item">
+                    <div class="app-icon">💰</div>
+                    <div class="app-details">
+                        <h4>SBI Kisan Credit Card</h4>
+                        <p>Short-term crop cultivation • ₹3,50,000</p>
+                    </div>
+                    <div class="app-meta">
+                        <span class="badge badge--pending">Under Review</span>
+                        <span class="app-date">Applied: 24 Feb 2026</span>
+                    </div>
+                </div>
+
+                <div class="app-item">
+                    <div class="app-icon" style="background:rgba(34,197,94,0.15)">🌾</div>
+                    <div class="app-details">
+                        <h4>PMKSY Drip Irrigation Subsidy</h4>
+                        <p>55% Equipment Subvention</p>
+                    </div>
+                    <div class="app-meta">
+                        <span class="badge badge--approved">Approved</span>
+                        <span class="app-date">Updated: 18 Feb 2026</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Land Records Abstract -->
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>My Land Holdings</h3>
+                    <a href="#" style="color:var(--clr-text-muted)">Manage lands (coming soon)</a>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+                    <div style="border:1px solid var(--clr-border);padding:16px;border-radius:var(--radius-md)">
+                        <p style="font-size:0.8rem;color:var(--clr-text-muted);text-transform:uppercase">Survey No.</p>
+                        <h4 style="font-size:1.2rem;margin:4px 0 12px">42/1/B</h4>
+                        <div style="display:flex;justify-content:space-between;font-size:0.85rem">
+                            <span>Area: <strong>2.4 HA</strong></span>
+                            <span>Crop: <strong>Onion</strong></span>
+                        </div>
+                    </div>
+                    <div class="state-empty"
+                        style="padding:20px;min-height:auto;flex-direction:row;gap:12px;cursor:pointer">
+                        <span style="font-size:1.5rem">+</span>
+                        <span style="font-size:0.9rem;font-weight:600">Link new 7/12 extract</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COL -->
+        <div class="dash-sidebar" data-reveal="left">
+
+            <!-- Quick Actions -->
+            <div class="panel" style="padding:16px">
+                <div class="qa-grid">
+                    <a href="loans.html" class="qa-btn"><span>🔍</span> Find Loans</a>
+                    <a href="risk.html" class="qa-btn"><span>⚠️</span> Run AI Checker</a>
+                </div>
+            </div>
+
+            <!-- Risk Snapshot -->
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>Last Risk Scan</h3>
+                    <a href="risk.html">New Scan</a>
+                </div>
+                <div class="snapshot">
+                    <div class="snapshot-gauge" id="dash-ring"></div>
+                    <h4>Medium Risk Buyer</h4>
+                    <p>Transaction with BYR-9381 shows manageable risk. Proceed with standard terms.</p>
+
+                    <div class="snapshot-meta">
+                        <div><span>45%</span> Delay Prob.</div>
+                        <div><span>7.2</span> Reliability</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Alert -->
+            <div class="panel">
+                <h3 style="font-size:1.1rem;margin-bottom:12px">Market Alerts</h3>
+                <p style="font-size:0.85rem;color:var(--clr-text-muted)">Based on your registered crop:
+                    <strong>Onion</strong></p>
+
+                <div class="alert-mini">
+                    <span style="font-size:1.2rem;line-height:1">🚨</span>
+                    <div>
+                        <strong style="display:block;margin-bottom:2px">Price dropping rapidly</strong>
+                        18% decrease at Lasalgaon Mandi observed over last 48 hrs.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Render the risk score ring
+            if (typeof window.renderRing === 'function') {
+                window.renderRing('dash-ring', 42, 100);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

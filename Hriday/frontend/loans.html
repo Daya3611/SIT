@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loan Advisory — AgriPayChain</title>
+    <meta name="description" content="Browse and compare 120+ agricultural loan schemes by crop, bank, and state." />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js" defer></script>
+    <script src="js/main.js" defer></script>
+
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, var(--clr-primary-dark) 0%, var(--clr-primary) 100%);
+            padding: 140px 0 60px;
+            color: #fff;
+        }
+
+        .page-hero h1 {
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 520px;
+        }
+
+        /* Layout */
+        .loans-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 32px;
+            align-items: start;
+            padding: 48px 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--clr-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--clr-border);
+            padding: 24px;
+            position: sticky;
+            top: 90px;
+        }
+
+        .sidebar h4 {
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            color: var(--clr-text);
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--clr-text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-chip-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .filter-chip {
+            padding: 5px 12px;
+            border-radius: var(--radius-full);
+            border: 1.5px solid var(--clr-border);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .filter-chip.active {
+            background: var(--clr-primary);
+            color: #fff;
+            border-color: var(--clr-primary);
+        }
+
+        .filter-chip:hover:not(.active) {
+            border-color: var(--clr-primary);
+            color: var(--clr-primary);
+        }
+
+        .range-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--clr-text-muted);
+            margin-bottom: 6px;
+        }
+
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--clr-primary);
+        }
+
+        .btn-clear {
+            font-size: 0.8rem;
+            color: var(--clr-text-muted);
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* Main */
+        .loans-main {}
+
+        .loans-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .loans-toolbar p {
+            font-size: 0.9rem;
+            color: var(--clr-text-muted);
+        }
+
+        .loans-sort {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .loans-sort select {
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            border: 1.5px solid var(--clr-border);
+            font-size: 0.85rem;
+        }
+
+        /* Loan Card */
+        .loans-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .loan-card {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            align-items: center;
+            transition: box-shadow 0.25s, transform 0.25s;
+            cursor: pointer;
+        }
+
+        .loan-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateX(4px);
+        }
+
+        .loan-card__left {}
+
+        .loan-card__top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .loan-card__bank {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--clr-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .loan-card__title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--clr-text);
+            margin-bottom: 8px;
+        }
+
+        .loan-card__tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .loan-card__right {
+            text-align: right;
+            min-width: 140px;
+        }
+
+        .loan-card__rate {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--clr-primary);
+            line-height: 1;
+        }
+
+        .loan-card__rate-label {
+            font-size: 0.75rem;
+            color: var(--clr-text-muted);
+            margin-bottom: 10px;
+        }
+
+        .loan-card__amount {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--clr-text);
+        }
+
+        .loan-card__amount-label {
+            font-size: 0.72rem;
+            color: var(--clr-text-muted);
+        }
+
+        /* Compare Bar */
+        .compare-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--clr-primary-dark);
+            color: #fff;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 500;
+            transform: translateY(100%);
+            transition: transform 0.35s ease;
+        }
+
+        .compare-bar.visible {
+            transform: none;
+        }
+
+        .compare-bar__slots {
+            display: flex;
+            gap: 12px;
+        }
+
+        .compare-slot {
+            width: 160px;
+            height: 44px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .compare-slot.filled {
+            border-style: solid;
+            border-color: var(--clr-accent);
+            background: rgba(245, 166, 35, 0.1);
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 6px;
+            text-align: center;
+        }
+
+        /* Modal */
+        .modal {
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .loans-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .loan-card {
+                grid-template-columns: 1fr;
+            }
+
+            .loan-card__right {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar__inner">
+            <a href="index.html" class="navbar__logo">🌾 Agri<span>Pay</span>Chain</a>
+            <ul class="navbar__links">
+                <li><a href="loans.html" class="active">Loans</a></li>
+                <li><a href="subsidies.html">Subsidies</a></li>
+                <li><a href="mandi.html">Mandi Prices</a></li>
+                <li><a href="risk.html">Risk Checker</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+            <a href="auth.html" class="navbar__cta">Login</a>
+            <div class="navbar__hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <div class="container">
+            <p class="section-label" data-reveal="up">Loan Advisory</p>
+            <h1 data-reveal="up">Find the Right Crop Loan</h1>
+            <p data-reveal="up">Compare 120+ agricultural loan schemes from government banks, cooperative banks, and
+                NBFCs — filtered to your crop and state.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="loans-layout">
+
+            <!-- ── Sidebar Filters ── -->
+            <aside class="sidebar" data-reveal="left">
+                <h4>🔍 Filter Loans</h4>
+
+                <div class="filter-group">
+                    <label>Crop Type</label>
+                    <div class="filter-chip-wrap" id="filter-crop">
+                        <span class="filter-chip active" data-val="all">All</span>
+                        <span class="filter-chip" data-val="wheat">Wheat</span>
+                        <span class="filter-chip" data-val="rice">Rice</span>
+                        <span class="filter-chip" data-val="cotton">Cotton</span>
+                        <span class="filter-chip" data-val="sugarcane">Sugarcane</span>
+                        <span class="filter-chip" data-val="soybean">Soybean</span>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Bank Type</label>
+                    <div class="filter-chip-wrap" id="filter-bank">
+                        <span class="filter-chip active" data-val="all">All</span>
+                        <span class="filter-chip" data-val="govt">Govt Bank</span>
+                        <span class="filter-chip" data-val="coop">Cooperative</span>
+                        <span class="filter-chip" data-val="nbfc">NBFC</span>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Max Interest Rate (%)</label>
+                    <div class="range-label">
+                        <span>0%</span><span id="rate-val">15%</span>
+                    </div>
+                    <input type="range" id="rate-range" min="0" max="20" value="15"
+                        oninput="document.getElementById('rate-val').textContent = this.value + '%'; applyFilters()" />
+                </div>
+
+                <div class="filter-group">
+                    <label>Max Loan Amount</label>
+                    <div class="range-label">
+                        <span>₹0</span><span id="amount-val">₹50L</span>
+                    </div>
+                    <input type="range" id="amount-range" min="0" max="100" value="50"
+                        oninput="document.getElementById('amount-val').textContent = '₹' + this.value + 'L'; applyFilters()" />
+                </div>
+
+                <a class="btn-clear" onclick="clearFilters()">Clear all filters</a>
+            </aside>
+
+            <!-- ── Loan Cards ── -->
+            <main class="loans-main">
+                <div class="loans-toolbar">
+                    <p id="result-count">Showing <strong>8</strong> schemes</p>
+                    <div class="loans-sort">
+                        <span style="font-size:0.85rem;color:var(--clr-text-muted)">Sort by:</span>
+                        <select id="sort-select" onchange="applyFilters()">
+                            <option value="rate-asc">Interest ↑</option>
+                            <option value="rate-desc">Interest ↓</option>
+                            <option value="amount-desc">Amount ↓</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="loans-grid" id="loans-grid" data-stagger></div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Compare Bar -->
+    <div class="compare-bar" id="compare-bar">
+        <div>
+            <p style="font-size:.88rem;font-weight:700;margin-bottom:8px">Comparing Loans</p>
+            <div class="compare-bar__slots" id="compare-slots">
+                <div class="compare-slot" id="cs-0">+ Add loan</div>
+                <div class="compare-slot" id="cs-1">+ Add loan</div>
+                <div class="compare-slot" id="cs-2">+ Add loan</div>
+            </div>
+        </div>
+        <div style="display:flex;gap:12px">
+            <button class="btn btn--outline btn--sm" onclick="clearCompare()">Clear</button>
+            <button class="btn btn--primary btn--sm">Compare Now</button>
+        </div>
+    </div>
+
+    <!-- Loan Detail Modal -->
+    <div class="modal-overlay" id="loan-modal">
+        <div class="modal">
+            <span class="modal__close" onclick="closeModal('loan-modal')">&times;</span>
+            <div class="modal__header">
+                <p id="modal-bank"
+                    style="font-size:.8rem;font-weight:700;color:var(--clr-text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">
+                </p>
+                <h3 id="modal-title"></h3>
+            </div>
+            <div id="modal-body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px"></div>
+            <h4 style="margin-bottom:12px;font-size:.95rem">Documents Required</h4>
+            <ul id="modal-docs" style="display:flex;flex-direction:column;gap:8px;margin-bottom:28px"></ul>
+            <div style="display:flex;gap:12px">
+                <button class="btn btn--green" style="flex:1">Apply for this Loan</button>
+                <button class="btn btn--outline btn--sm" id="modal-compare-btn"
+                    style="color:var(--clr-text);border-color:var(--clr-border)" onclick="addToCompare()">
+                    + Add to Compare
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const LOANS = [
+            { id: 1, bank: 'SBI', type: 'govt', title: 'Kisan Credit Card (KCC)', rate: 7.0, amount: 30, crops: ['wheat', 'rice', 'cotton', 'soybean'], docs: ['Aadhaar', 'Land records (7/12)', 'Bank passbook', 'Passport photo'], tenure: '1–5 years', purpose: 'Short-term crop cultivation' },
+            { id: 2, bank: 'NABARD', type: 'govt', title: 'Agriculture Infrastructure Fund', rate: 4.0, amount: 100, crops: ['all'], docs: ['Project report', 'Aadhaar', 'PAN', 'Land ownership proof'], tenure: 'Up to 10 years', purpose: 'Post-harvest infra, cold storage' },
+            { id: 3, bank: 'Punjab National Bank', type: 'govt', title: 'PNB Kisan Tatkal Scheme', rate: 8.5, amount: 10, crops: ['wheat', 'rice'], docs: ['Aadhaar', 'Crop sowing certificate', 'Land records'], tenure: '12 months', purpose: 'Emergency short-term crop loan' },
+            { id: 4, bank: 'IFFCO Tokio (NBFC)', type: 'nbfc', title: 'Agri Allied Loan', rate: 9.5, amount: 20, crops: ['cotton', 'sugarcane'], docs: ['Aadhaar', 'Income certificate', 'Land records'], tenure: '2–4 years', purpose: 'Allied agriculture activities' },
+            { id: 5, bank: 'Maharashtra DCCB', type: 'coop', title: 'Co-operative Crop Loan', rate: 3.0, amount: 5, crops: ['sugarcane', 'wheat'], docs: ['Society membership card', 'Aadhaar', 'Land records'], tenure: '6 months', purpose: 'Kharif/Rabi crop cultivation' },
+            { id: 6, bank: 'Bank of Baroda', type: 'govt', title: 'BOB Baroda Kisan', rate: 7.5, amount: 50, crops: ['rice', 'soybean', 'wheat'], docs: ['Aadhaar', '7/12 extract', 'Income proof'], tenure: '1–7 years', purpose: 'Working capital + investment' },
+            { id: 7, bank: 'Mahindra Finance', type: 'nbfc', title: 'Farm Equipment Loan', rate: 12.0, amount: 25, crops: ['all'], docs: ['Aadhaar', 'PAN', 'Income tax returns', 'Land records'], tenure: '3–5 years', purpose: 'Tractor, harvester financing' },
+            { id: 8, bank: 'Union Bank of India', type: 'govt', title: 'Pradhan Mantri Fasal Bima', rate: 2.0, amount: 15, crops: ['rice', 'wheat', 'cotton'], docs: ['Aadhaar', 'Khasra/Khatauni', 'Bank account proof'], tenure: '1 season', purpose: 'Crop insurance premium loan' },
+        ];
+
+        let selectedLoan = null;
+        let compareList = [];
+
+        function renderLoans(loans) {
+            const grid = document.getElementById('loans-grid');
+            document.getElementById('result-count').innerHTML = `Showing <strong>${loans.length}</strong> schemes`;
+            if (!loans.length) {
+                grid.innerHTML = '<p style="color:var(--clr-text-muted);padding:32px">No schemes match your filters.</p>';
+                return;
+            }
+            grid.innerHTML = loans.map(l => `
+        <div class="loan-card" onclick="openLoan(${l.id})">
+          <div class="loan-card__left">
+            <div class="loan-card__top">
+              <span class="loan-card__bank">${l.bank}</span>
+              <span class="badge badge--${l.type === 'govt' ? 'green' : l.type === 'nbfc' ? 'medium' : 'gold'}">${l.type.toUpperCase()}</span>
+            </div>
+            <div class="loan-card__title">${l.title}</div>
+            <div class="loan-card__tags">
+              <span class="badge badge--green">${l.tenure}</span>
+              <span class="badge badge--gold">${l.purpose}</span>
+            </div>
+          </div>
+          <div class="loan-card__right">
+            <div class="loan-card__rate">${l.rate}%</div>
+            <div class="loan-card__rate-label">per annum</div>
+            <div class="loan-card__amount">Up to ₹${l.amount}L</div>
+            <div class="loan-card__amount-label">max loan amount</div>
+          </div>
+        </div>`).join('');
+        }
+
+        function applyFilters() {
+            const cropFilter = document.querySelector('#filter-crop .filter-chip.active')?.dataset.val || 'all';
+            const bankFilter = document.querySelector('#filter-bank .filter-chip.active')?.dataset.val || 'all';
+            const maxRate = parseFloat(document.getElementById('rate-range').value);
+            const maxAmount = parseFloat(document.getElementById('amount-range').value);
+            const sort = document.getElementById('sort-select').value;
+
+            let result = LOANS.filter(l => {
+                if (cropFilter !== 'all' && !l.crops.includes('all') && !l.crops.includes(cropFilter)) return false;
+                if (bankFilter !== 'all' && l.type !== bankFilter) return false;
+                if (l.rate > maxRate) return false;
+                if (l.amount > maxAmount) return false;
+                return true;
+            });
+            if (sort === 'rate-asc') result.sort((a, b) => a.rate - b.rate);
+            if (sort === 'rate-desc') result.sort((a, b) => b.rate - a.rate);
+            if (sort === 'amount-desc') result.sort((a, b) => b.amount - a.amount);
+            renderLoans(result);
+        }
+
+        function clearFilters() {
+            document.querySelectorAll('.filter-chip').forEach(c => {
+                c.classList.remove('active');
+                if (c.dataset.val === 'all') c.classList.add('active');
+            });
+            document.getElementById('rate-range').value = 15;
+            document.getElementById('amount-range').value = 50;
+            document.getElementById('rate-val').textContent = '15%';
+            document.getElementById('amount-val').textContent = '₹50L';
+            applyFilters();
+        }
+
+        // Chip click
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                chip.closest('.filter-chip-wrap').querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                applyFilters();
+            });
+        });
+
+        function openLoan(id) {
+            selectedLoan = LOANS.find(l => l.id === id);
+            if (!selectedLoan) return;
+            document.getElementById('modal-bank').textContent = selectedLoan.bank;
+            document.getElementById('modal-title').textContent = selectedLoan.title;
+            document.getElementById('modal-body').innerHTML = `
+        <div><p style="font-size:.75rem;color:var(--clr-text-muted)">Interest Rate</p><strong style="font-size:1.4rem;color:var(--clr-primary)">${selectedLoan.rate}% p.a.</strong></div>
+        <div><p style="font-size:.75rem;color:var(--clr-text-muted)">Max Amount</p><strong style="font-size:1.4rem">₹${selectedLoan.amount}L</strong></div>
+        <div><p style="font-size:.75rem;color:var(--clr-text-muted)">Tenure</p><strong>${selectedLoan.tenure}</strong></div>
+        <div><p style="font-size:.75rem;color:var(--clr-text-muted)">Purpose</p><strong>${selectedLoan.purpose}</strong></div>`;
+            document.getElementById('modal-docs').innerHTML =
+                selectedLoan.docs.map(d => `<li style="display:flex;gap:8px;font-size:.88rem"><span style="color:var(--clr-low)">✓</span>${d}</li>`).join('');
+            openModal('loan-modal');
+        }
+
+        function addToCompare() {
+            if (!selectedLoan) return;
+            if (compareList.find(l => l.id === selectedLoan.id)) return closeModal('loan-modal');
+            if (compareList.length >= 3) return;
+            compareList.push(selectedLoan);
+            updateCompareBar();
+            closeModal('loan-modal');
+        }
+
+        function updateCompareBar() {
+            const bar = document.getElementById('compare-bar');
+            bar.classList.toggle('visible', compareList.length > 0);
+            for (let i = 0; i < 3; i++) {
+                const slot = document.getElementById('cs-' + i);
+                if (compareList[i]) {
+                    slot.className = 'compare-slot filled';
+                    slot.textContent = compareList[i].title;
+                } else {
+                    slot.className = 'compare-slot';
+                    slot.textContent = '+ Add loan';
+                }
+            }
+        }
+        function clearCompare() { compareList = []; updateCompareBar(); }
+
+        // Init
+        applyFilters();
+    </script>
+
+</body>
+
+</html>

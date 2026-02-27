@@ -1,0 +1,209 @@
+/* ============================================
+   AgriPayChain — Base Design System
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap');
+
+/* ─── CSS Variables ─── */
+:root {
+  /* Colors */
+  --clr-primary:       #1a472a;   /* Deep forest green */
+  --clr-primary-light: #2d6a4f;
+  --clr-primary-dark:  #0f2d1a;
+  --clr-accent:        #f5a623;   /* Golden wheat */
+  --clr-accent-dark:   #d4880a;
+  --clr-bg:            #f8f9f0;   /* Off-white */
+  --clr-bg-dark:       #111a13;   /* Dark page bg */
+  --clr-surface:       #ffffff;
+  --clr-surface-dark:  #1c2b1e;
+  --clr-text:          #1a1a1a;
+  --clr-text-muted:    #6b7280;
+  --clr-text-light:    #f0f4f0;
+  --clr-border:        #e5e7eb;
+  --clr-border-dark:   #2a3d2c;
+
+  /* Risk Colors */
+  --clr-high:    #ef4444;
+  --clr-medium:  #f59e0b;
+  --clr-low:     #22c55e;
+
+  /* Typography */
+  --font-body:    'Inter', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+
+  /* Spacing */
+  --sp-xs:  4px;
+  --sp-sm:  8px;
+  --sp-md:  16px;
+  --sp-lg:  24px;
+  --sp-xl:  40px;
+  --sp-2xl: 64px;
+  --sp-3xl: 96px;
+
+  /* Border Radius */
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   20px;
+  --radius-full: 999px;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.1);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.15);
+  --shadow-glow: 0 0 40px rgba(26,71,42,0.3);
+
+  /* Transitions */
+  --transition-fast:   0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow:   0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Z-index layers */
+  --z-base:    1;
+  --z-card:    10;
+  --z-sticky:  100;
+  --z-overlay: 500;
+  --z-modal:   1000;
+  --z-nav:     2000;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--clr-text);
+  background: var(--clr-bg);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+/* ─── Typography ─── */
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  color: var(--clr-text);
+}
+
+h1 { font-size: clamp(2.2rem, 5vw, 4rem); }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.8rem); }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.8rem); }
+h4 { font-size: 1.2rem; }
+
+p  { color: var(--clr-text-muted); line-height: 1.75; }
+
+/* ─── Layout Utilities ─── */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--sp-lg);
+}
+
+.section {
+  padding: var(--sp-3xl) 0;
+}
+
+.section--dark {
+  background: var(--clr-bg-dark);
+  color: var(--clr-text-light);
+}
+
+.section--dark h1,
+.section--dark h2,
+.section--dark h3,
+.section--dark h4 {
+  color: var(--clr-text-light);
+}
+
+.section--dark p {
+  color: rgba(240,244,240,0.7);
+}
+
+.grid { display: grid; }
+.flex { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+
+.gap-sm { gap: var(--sp-sm); }
+.gap-md { gap: var(--sp-md); }
+.gap-lg { gap: var(--sp-lg); }
+.gap-xl { gap: var(--sp-xl); }
+
+.text-center { text-align: center; }
+.text-muted   { color: var(--clr-text-muted); }
+.text-accent  { color: var(--clr-accent); }
+.text-primary { color: var(--clr-primary); }
+
+/* ─── Glassmorphism ─── */
+.glass {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.glass-light {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* ─── Low-End Mode Overrides ─── */
+.low-perf .glass,
+.low-perf .glass-light {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(26, 71, 42, 0.9);
+}
+
+.low-perf .hero-video-wrap { display: none; }
+.low-perf .hero-static-bg  { display: block !important; }
+.low-perf [data-parallax]  { transform: none !important; }
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--clr-bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--clr-primary-light); border-radius: var(--radius-full); }
+
+/* ─── Selection ─── */
+::selection {
+  background: var(--clr-accent);
+  color: var(--clr-primary-dark);
+}
