@@ -3,15 +3,17 @@
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Menu, X, ArrowRight, Wallet, CreditCard, Target, FileText, Info, ShieldCheck, Store } from "lucide-react"
+import { usePathname, useRouter } from "next/navigation"
+import { Menu, X, ArrowRight, Wallet, CreditCard, Target, FileText, Info, ShieldCheck, Store, LogOut, User } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useAuth } from "@/lib/AuthContext"
 
 const MAIN_LINKS = [
-    { name: "Home", href: "/" },
-    { name: "All Schemes", href: "/schemes" },
-    { name: "Marketplace", href: "/marketplace" },
-    { name: "Contact", href: "/contact" },
+    { name: "Home", href: "/", public: true },
+    { name: "Dashboard", href: "/dashboard", public: false },
+    { name: "Schemes", href: "/schemes", public: false },
+    { name: "Market", href: "/marketplace", public: false },
+    { name: "Contact", href: "/contact", public: false },
 ]
 
 const MENU_LINKS = [
@@ -23,6 +25,8 @@ const MENU_LINKS = [
 
 export function NavBar() {
     const pathname = usePathname()
+    const router = useRouter()
+    const { isAuthenticated, user, logout } = useAuth()
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -31,14 +35,9 @@ export function NavBar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            // On home page, we want the navbar to eventually fade to allow the full video experience.
-            // On other pages, it just gets a background.
             setIsScrolled(window.scrollY > 50)
         }
-
-        // Initial check
         handleScroll()
-
         window.addEventListener("scroll", handleScroll)
         return () => window.removeEventListener("scroll", handleScroll)
     }, [])
@@ -47,6 +46,18 @@ export function NavBar() {
     useEffect(() => {
         setIsMenuOpen(false)
     }, [pathname])
+
+    const handleProtectedClick = (e: React.MouseEvent, href: string, isPublic: boolean) => {
+        if (!isPublic && !isAuthenticated) {
+            e.preventDefault()
+            router.push("/login")
+        }
+    }
+
+    const handleLogout = () => {
+        logout()
+        router.push("/")
+    }
 
     return (
         <>
@@ -74,16 +85,17 @@ export function NavBar() {
                     </Link>
 
                     {/* Main Desktop Links */}
-                    <div className="hidden md:flex items-center gap-2 bg-white/10 backdrop-blur-lg p-1.5 rounded-2xl border border-white/20 shadow-xl">
+                    <div className="hidden md:flex items-center gap-1 bg-white/10 backdrop-blur-lg p-1.5 rounded-2xl border border-white/20 shadow-xl overflow-hidden">
                         {MAIN_LINKS.map((link) => {
+                            if (!link.public && !isAuthenticated) return null;
                             const isActive = pathname === link.href
                             return (
                                 <Link
                                     key={link.name}
                                     href={link.href}
                                     className={cn(
-                                        "relative px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors",
-                                        isActive ? "text-[#2d3429] bg-white shadow-sm" :
+                                        "relative px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                                        isActive ? "text-[#2d3429] bg-white shadow-sm scale-105" :
                                             isHomePage && !isScrolled ? "text-white/70 hover:text-white" : "text-neutral-500 hover:text-[#2d3429]"
                                     )}
                                 >
@@ -95,9 +107,30 @@ export function NavBar() {
 
                     {/* Actions */}
                     <div className="flex items-center gap-4">
-                        <Link href="/dashboard" className="hidden sm:flex px-6 py-3 bg-[#2d3429] text-white rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-[#7c9473] transition-all items-center gap-2 shadow-xl shadow-[#2d3429]/20">
-                            Launch App <ArrowRight size={14} />
-                        </Link>
+                        {isAuthenticated ? (
+                            <div className="hidden sm:flex items-center gap-3">
+                                <Link href="/dashboard" className="flex items-center gap-3 px-4 py-2.5 bg-white/10 backdrop-blur-lg rounded-xl border border-white/20">
+                                    <div className="w-8 h-8 rounded-full bg-[#7c9473]/20 flex items-center justify-center overflow-hidden">
+                                        <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'User'}`} alt="Avatar" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="text-left">
+                                        <div className={cn("text-[10px] font-black uppercase leading-none", isHomePage && !isScrolled ? "text-white" : "text-[#2d3429]")}>{user?.name}</div>
+                                        <div className="text-[8px] font-bold uppercase tracking-widest text-[#7c9473] mt-0.5">{user?.role}</div>
+                                    </div>
+                                </Link>
+                                <button
+                                    onClick={handleLogout}
+                                    className="p-2.5 rounded-xl text-red-400/60 hover:text-red-400 hover:bg-red-400/10 transition-all"
+                                    title="Logout"
+                                >
+                                    <LogOut size={16} />
+                                </button>
+                            </div>
+                        ) : (
+                            <Link href="/login" className="hidden sm:flex px-6 py-3 bg-[#2d3429] text-white rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-[#7c9473] transition-all items-center gap-2 shadow-xl shadow-[#2d3429]/20">
+                                Login <ArrowRight size={14} />
+                            </Link>
+                        )}
 
                         {/* Hamburger Button */}
                         <button
@@ -127,13 +160,13 @@ export function NavBar() {
                         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
                             {/* Menu Links */}
                             <div className="space-y-12">
-                                {/* Mobile Main Links (Visible only on small screens) */}
+                                {/* Mobile Main Links */}
                                 <div className="md:hidden flex flex-col gap-6">
                                     <div className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-300">Primary Routes</div>
                                     {MAIN_LINKS.map(link => (
                                         <Link
                                             key={link.name}
-                                            href={link.href}
+                                            href={link.public || isAuthenticated ? link.href : "/login"}
                                             className="text-4xl font-black text-[#2d3429] tracking-tighter hover:text-[#7c9473] transition-colors"
                                         >
                                             {link.name}
@@ -153,7 +186,7 @@ export function NavBar() {
                                                 transition={{ delay: i * 0.1 }}
                                             >
                                                 <Link
-                                                    href={link.href}
+                                                    href={isAuthenticated ? link.href : "/login"}
                                                     className="block p-6 bg-white rounded-3xl border border-neutral-100 hover:border-[#7c9473]/30 hover:shadow-xl hover:shadow-[#7c9473]/5 transition-all group"
                                                 >
                                                     <div className="w-12 h-12 rounded-2xl bg-[#f8f9f5] text-[#7c9473] flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-[#7c9473] group-hover:text-white transition-all duration-300">
@@ -174,14 +207,34 @@ export function NavBar() {
                                     <ShieldCheck size={120} />
                                 </div>
                                 <div className="relative z-10">
-                                    <div className="text-[10px] bg-white/10 w-fit px-4 py-1.5 rounded-full font-black uppercase tracking-widest mb-6">Farmer Access</div>
-                                    <h3 className="text-4xl font-black tracking-tighter mb-4">Enter the Ecosystem.</h3>
-                                    <p className="text-white/60 text-sm leading-relaxed max-w-sm mb-8">
-                                        Connect your wallet, register your land, and secure your crop lifecycle entirely on-chain.
-                                    </p>
-                                    <Link href="/dashboard" className="inline-flex px-8 py-4 bg-[#7c9473] text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#6a8062] transition-colors gap-3 items-center">
-                                        Launch Farm Portal <ArrowRight size={16} />
-                                    </Link>
+                                    {isAuthenticated ? (
+                                        <>
+                                            <div className="text-[10px] bg-white/10 w-fit px-4 py-1.5 rounded-full font-black uppercase tracking-widest mb-6">
+                                                {user?.role === "farmer" ? "Farmer Portal" : "Buyer Portal"}
+                                            </div>
+                                            <h3 className="text-4xl font-black tracking-tighter mb-4">Welcome, {user?.name?.split(' ')[0]}.</h3>
+                                            <p className="text-white/60 text-sm leading-relaxed max-w-sm mb-8">
+                                                {user?.role === "farmer"
+                                                    ? "Access your farm dashboard, check scheme eligibility, and manage your crop lifecycle."
+                                                    : "Browse the marketplace, connect with farmers, and manage your procurement."
+                                                }
+                                            </p>
+                                            <Link href="/dashboard" className="inline-flex px-8 py-4 bg-[#7c9473] text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#6a8062] transition-colors gap-3 items-center">
+                                                Go to Dashboard <ArrowRight size={16} />
+                                            </Link>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="text-[10px] bg-white/10 w-fit px-4 py-1.5 rounded-full font-black uppercase tracking-widest mb-6">Get Started</div>
+                                            <h3 className="text-4xl font-black tracking-tighter mb-4">Enter the Ecosystem.</h3>
+                                            <p className="text-white/60 text-sm leading-relaxed max-w-sm mb-8">
+                                                Login or register to access the full platform — schemes, loans, marketplace, and more.
+                                            </p>
+                                            <Link href="/login" className="inline-flex px-8 py-4 bg-[#7c9473] text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#6a8062] transition-colors gap-3 items-center">
+                                                Login / Register <ArrowRight size={16} />
+                                            </Link>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </div>

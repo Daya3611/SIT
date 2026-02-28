@@ -22,12 +22,14 @@ import schemesRoute from './routes/schemes.js';
 import loansRoute from './routes/loans.js';
 import marketplaceRoute from './routes/marketplace.js';
 import userRoute from './routes/user.js';
+import authRoute from './routes/auth.js';
 
 app.use('/api/land-records', landRecordsRoute);
 app.use('/api/schemes', schemesRoute);
 app.use('/api/loans', loansRoute);
 app.use('/api/marketplace', marketplaceRoute);
 app.use('/api/user', userRoute);
+app.use('/api/auth', authRoute);
 
 // Start the server
 app.listen(PORT, () => {

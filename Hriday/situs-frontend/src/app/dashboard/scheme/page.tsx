@@ -9,34 +9,66 @@ const SCHEMES = [
     {
         name: "Kisan Credit Card (Self-Service)",
         match: "Eligible Now",
-        reason: "Active land registry and clean credit history detected via Aadhar linkage.",
-        description: "Access up to ₹3,00,000 credit at 4% interest rate for seasonal cultivation expenses.",
+        reason: "Active land registry and clean credit history detected via Aadhar linkage. Pre-approved for ₹2,50,000 credit limit at SBI Karnal Branch.",
+        description: "Access up to ₹3,00,000 credit at 4% effective interest rate for seasonal cultivation expenses, post-harvest storage, and allied agricultural activities.",
         tags: ["Banking", "Priority"],
         type: "Loan"
     },
     {
-        name: "PM-Kisan Maandhan Yojana",
+        name: "PM-KISAN (₹6,000 Annual Support)",
+        match: "Already Enrolled",
+        reason: "Your 16th installment of ₹2,000 was credited on 10 Dec 2025 to your Aadhaar-linked SBI account. Next installment due: April 2026.",
+        description: "Direct income support of ₹6,000 per year in three equal installments to all landholding farmer families via Direct Benefit Transfer.",
+        tags: ["Direct Benefit", "Active"],
+        type: "Subsidy"
+    },
+    {
+        name: "PM-Kisan Maandhan Yojana (Pension)",
         match: "High Match",
-        reason: "Your land size (under 2 hectares) matches the Small & Marginal Farmer pension criteria.",
-        description: "A voluntary and contributory pension scheme providing ₹3,000 monthly after age 60.",
+        reason: "Your land size (1.5 hectares, under 2 ha limit) matches the Small & Marginal Farmer pension criteria. Age eligibility confirmed.",
+        description: "A voluntary contributory pension scheme providing ₹3,000 monthly after age 60. Monthly contribution of ₹55-200 matched equally by Central Government.",
         tags: ["Pension", "Security"],
         type: "Subsidy"
     },
     {
-        name: "Micro-Irrigation Solar Pump Grant",
-        match: "85% Likelihood",
-        reason: "Registration of 'Sugarcane' in dryland region qualifies you for 90% solar pump subsidy.",
-        description: "Support for installing high-efficiency solar water pumps to reduce diesel costs.",
-        tags: ["Equipment", "Green"],
+        name: "PM Fasal Bima Yojana (Crop Insurance)",
+        match: "95% Likelihood",
+        reason: "Your registered crops (Wheat, Mustard) are notification-eligible in Karnal district for Rabi 2025-26 season. Premium: only 1.5%.",
+        description: "Comprehensive crop insurance at just 1.5% premium for Rabi crops. Covers yield loss, prevented sowing, post-harvest losses, and natural calamity damage.",
+        tags: ["Insurance", "Seasonal"],
         type: "Subsidy"
     },
     {
-        name: "Cattle & Livestock Extension Loan",
-        match: "Additional Info Needed",
-        reason: "Verify your dairy production volume to unlock priority livestock credit lines.",
-        description: "Term loans for purchasing high-yield livestock and constructing animal sheds.",
-        tags: ["Livestock", "Expansion"],
+        name: "PM-KUSUM Solar Pump Scheme",
+        match: "85% Likelihood",
+        reason: "Your tubewell-based irrigation in Karnal qualifies for 60% subsidy on a 5HP solar DC submersible pump, saving ₹45,000/year in diesel costs.",
+        description: "Support for installing high-efficiency solar water pumps up to 7.5 HP with 60% government subsidy. Also enables extra income from selling surplus solar power.",
+        tags: ["Solar", "Green"],
+        type: "Subsidy"
+    },
+    {
+        name: "Soil Health Card — Due for Renewal",
+        match: "Action Required",
+        reason: "Your last soil test report was generated in 2023. A new cycle is due in 2026. Free testing available at District Soil Lab, Karnal.",
+        description: "Free comprehensive soil testing including pH levels, macro/micro nutrients, and organic content with expert fertilizer dosage recommendations.",
+        tags: ["Soil Health", "Free"],
+        type: "Subsidy"
+    },
+    {
+        name: "Interest Subvention Scheme (4% Crop Loans)",
+        match: "Eligible Now",
+        reason: "Your existing KCC with SBI qualifies for the 2% interest subvention + 3% prompt repayment incentive, reducing your effective rate to 4%.",
+        description: "Short-term crop loans up to ₹3 lakh at just 4% effective interest. Government provides 2% subvention with additional 3% bonus for timely repayment.",
+        tags: ["Credit", "Interest"],
         type: "Loan"
+    },
+    {
+        name: "e-NAM (Online Mandi Trading)",
+        match: "Available",
+        reason: "Karnal APMC mandi is e-NAM integrated. Register to get transparent online bidding and potentially 10-15% better prices for your Wheat & Mustard.",
+        description: "Pan-India electronic trading portal with 1389+ connected mandis. Get real-time price discovery, online transparent bidding, and direct e-payments to your bank.",
+        tags: ["Market", "Digital"],
+        type: "Subsidy"
     }
 ]
 
@@ -96,7 +128,7 @@ export default function SchemeEligibilityPage() {
                             />
                             <div className="text-center">
                                 <span className="text-xs font-black uppercase tracking-widest block mb-2">Analyzing Farmer Profile</span>
-                                <span className="text-[10px] text-white/40 block">Connecting to Kisan Data Hub...</span>
+                                <span className="text-[10px] text-white/40 block">Cross-referencing with 15+ Central & State Schemes...</span>
                             </div>
                         </div>
                     )}
@@ -112,7 +144,7 @@ export default function SchemeEligibilityPage() {
                         >
                             <div className="flex items-center justify-between border-b border-neutral-100 pb-6">
                                 <h4 className="text-2xl font-black text-[#2d3429] tracking-tighter">Verified Funding Matches</h4>
-                                <div className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Found 4 opportunities</div>
+                                <div className="text-[10px] font-black text-neutral-400 uppercase tracking-widest">Found {SCHEMES.length} opportunities for FARMER-8821</div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -150,16 +182,21 @@ export default function SchemeEligibilityPage() {
                                                     <CheckCircle2 size={12} />
                                                 </div>
                                                 <span className="text-[10px] font-black text-[#2d3429] uppercase tracking-tighter">Probability Score</span>
-                                                <span className="ml-auto text-[10px] font-black text-[#7c9473] uppercase">{scheme.match}</span>
+                                                <span className={`ml-auto text-[10px] font-black uppercase ${scheme.match === 'Eligible Now' || scheme.match === 'Already Enrolled' ? 'text-[#7c9473]' :
+                                                        scheme.match === 'Action Required' ? 'text-[#c9a66b]' :
+                                                            'text-[#546a7b]'
+                                                    }`}>{scheme.match}</span>
                                             </div>
                                             <div className="text-[10px] font-bold text-neutral-400 italic leading-relaxed border-t border-neutral-200 pt-4">
-                                                "{scheme.reason}"
+                                                &ldquo;{scheme.reason}&rdquo;
                                             </div>
                                         </div>
 
                                         <div className="flex gap-4">
                                             <button className="flex-grow flex items-center justify-between px-8 py-5 bg-[#2d3429] text-white rounded-2xl group-hover:bg-[#7c9473] transition-all">
-                                                <span className="text-[10px] font-black uppercase tracking-widest">Start Application</span>
+                                                <span className="text-[10px] font-black uppercase tracking-widest">
+                                                    {scheme.match === 'Already Enrolled' ? 'View Status' : 'Start Application'}
+                                                </span>
                                                 <ChevronRight size={16} />
                                             </button>
                                             <button className="p-5 border border-neutral-100 rounded-2xl text-neutral-300 hover:text-[#2d3429] transition-colors">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Share_Tech_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/lib/AuthContext";
 
 const boxyFont = Share_Tech_Mono({
   weight: "400",
@@ -28,7 +29,9 @@ export default function RootLayout({
       <body
         className={`${boxyFont.variable} ${bodyFont.variable} antialiased font-body bg-black text-white`}
       >
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
