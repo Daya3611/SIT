@@ -230,5 +230,21 @@
     "encumbrances": "KCC Lien — UCO Bank",
     "verificationStatus": "Blockchain Verified",
     "txHash": "0xf1b2d9...6a3e"
+  },
+  {
+    "recordId": "LR-NEW-1290",
+    "farmerId": "BUYER-1002",
+    "farmerName": "Priya Organics",
+    "surveyNumber": "",
+    "village": "Gauvarai",
+    "taluka": "Kumdal",
+    "district": "Sindhudurg",
+    "state": "",
+    "totalArea": "",
+    "transferNumber": "",
+    "transferDate": "",
+    "ulpin": "28523757841",
+    "verificationStatus": "Verified via OCR",
+    "registrationDate": "2026-02-28"
   }
 ]

@@ -72,9 +72,8 @@ export function NavBar() {
 
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div className="w-10 h-10 bg-[#7c9473] rounded-xl flex items-center justify-center text-white font-black text-xs group-hover:bg-[#2d3429] transition-colors relative overflow-hidden">
-                            <span className="relative z-10">A</span>
-                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                        <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center">
+                            <img src="/logo.png" alt="DBT-Connect Logo" className="w-full h-full object-contain" />
                         </div>
                         <span className={cn(
                             "font-black tracking-tighter text-lg hidden sm:block",
