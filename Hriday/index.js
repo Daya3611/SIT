@@ -1,6 +1,6 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
 // Load environment variables
 dotenv.config();
@@ -17,9 +17,17 @@ app.get('/', (req, res) => {
     res.json({ status: 'success', message: 'AgriPayChain Backend is running!' });
 });
 
-const landRecordsRoute = require('./routes/landRecords');
+import landRecordsRoute from './routes/landRecords.js';
+import schemesRoute from './routes/schemes.js';
+import loansRoute from './routes/loans.js';
+import marketplaceRoute from './routes/marketplace.js';
+import userRoute from './routes/user.js';
 
 app.use('/api/land-records', landRecordsRoute);
+app.use('/api/schemes', schemesRoute);
+app.use('/api/loans', loansRoute);
+app.use('/api/marketplace', marketplaceRoute);
+app.use('/api/user', userRoute);
 
 // Start the server
 app.listen(PORT, () => {
