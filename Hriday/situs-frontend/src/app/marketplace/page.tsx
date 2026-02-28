@@ -67,27 +67,71 @@ export default function MarketplacePage() {
         setIsCartOpen(true)
     }
 
-    const handleCheckout = () => {
+    const handleCheckout = async () => {
         setIsOrdering(true)
-        // Simulate processing multiple cart items as individual orders or a bulk order
-        const orderPromises = cart.map(item =>
-            api.placeOrder({ productId: item.product.id, quantity: item.quantity, buyerId: "FARMER-8821" })
-        )
+        const finalAmount = Math.round(cartTotal * 1.02);
 
-        Promise.all(orderPromises).then(responses => {
-            const allSuccess = responses.every(res => res.success)
-            if (allSuccess) {
-                alert(`Successfully processed ${cart.length} item(s)!`)
-                setCart([])
-                setIsCartOpen(false)
-            } else {
-                alert("Some items could not be processed. Please try again.")
+        try {
+            // Create order on backend
+            const orderRes = await api.createRazorpayOrder(finalAmount);
+            if (!orderRes.success) {
+                alert("Could not create Razorpay order");
+                setIsOrdering(false);
+                return;
             }
-            setIsOrdering(false)
-        }).catch(() => {
-            alert("Error connecting to the blockchain ledger.")
-            setIsOrdering(false)
-        })
+
+            // Load razorpay script dynamically
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.onload = () => {
+                const options = {
+                    key: "rzp_test_SLRCjdRc57Kz4i",
+                    amount: orderRes.order.amount,
+                    currency: "INR",
+                    name: "DBT-Connect",
+                    description: "Marketplace Purchase",
+                    order_id: orderRes.order.id,
+                    handler: async function (response: any) {
+                        try {
+                            // Process actual orders to decrement stock
+                            const orderPromises = cart.map(item =>
+                                api.placeOrder({ productId: item.product.id, quantity: item.quantity, buyerId: "FARMER-8821" })
+                            )
+                            await Promise.all(orderPromises);
+
+                            // Redirect to success page
+                            window.location.href = `/order-status?payment_id=${response.razorpay_payment_id}&order_id=${response.razorpay_order_id}&amount=${finalAmount}`;
+                        } catch (err) {
+                            alert("Payment succeeded but order processing failed.");
+                        }
+                    },
+                    prefill: {
+                        name: "Farmer",
+                        email: "farmer@dbt-connect.com",
+                        contact: "9999999999"
+                    },
+                    theme: {
+                        color: "#7c9473"
+                    }
+                };
+                const rzp = new (window as any).Razorpay(options);
+                rzp.on('payment.failed', function () {
+                    alert("Payment failed");
+                });
+                rzp.open();
+                setIsOrdering(false);
+            };
+            script.onerror = () => {
+                alert("Razorpay SDK failed to load");
+                setIsOrdering(false);
+            };
+            document.body.appendChild(script);
+
+        } catch (error) {
+            console.error(error);
+            alert("Error connecting to the payment gateway.");
+            setIsOrdering(false);
+        }
     }
 
     const removeFromCart = (productId: string) => {

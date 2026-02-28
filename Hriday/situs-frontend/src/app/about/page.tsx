@@ -19,7 +19,7 @@ export default function AboutPage() {
                         Building Trust in<br />Agricultural Trade.
                     </h1>
                     <p className="text-white/60 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
-                        AgriPayChain eliminates payment uncertainty for farmers by tokenizing the crop lifecycle and mapping it securely to smart contracts, ensuring real-time visibility from planting to final payment.
+                        DBT-Connect eliminates payment uncertainty for farmers by tokenizing the crop lifecycle and mapping it securely to smart contracts, ensuring real-time visibility from planting to final payment.
                     </p>
                 </div>
             </div>

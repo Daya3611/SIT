@@ -8,7 +8,7 @@ from risk_engine import compute_risk_score
 # Load models once
 pipeline = joblib.load("delay_prediction_model.pkl")
 feature_names = joblib.load("feature_names.pkl")
-reliability_df = pd.read_csv("buyer_reliability.csv")
+reliability_df = pd.read_csv("reliability/buyer_reliability.csv")
 
 preprocessor = pipeline.named_steps["preprocessor"]
 model = pipeline.named_steps["classifier"]

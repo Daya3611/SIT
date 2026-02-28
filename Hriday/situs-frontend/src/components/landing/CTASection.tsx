@@ -24,8 +24,8 @@ export function CTASection() {
                             Start Managing Your <br />
                             Farm Today.
                         </h2>
-                        <p className="text-[#soft-white]/60 max-w-xl mx-auto text-lg">
-                            Join thousands of farmers already using AgriPayChain to
+                        <p className="text-white max-w-xl mx-auto text-lg">
+                            Join thousands of farmers already using DBT-Connect to
                             secure their income and legacy.
                         </p>
                         <div className="flex flex-wrap justify-center gap-6 pt-4">

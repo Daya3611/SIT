@@ -60,6 +60,21 @@ let registeredUsers = [
         state: "Maharashtra",
         gstNumber: "27AADCP5678Q1Z5",
         createdAt: "2025-10-05T14:00:00.000Z"
+    },
+    {
+        userId: "FARMER-9999",
+        name: "Rajesh (Test)",
+        email: "rajesh@gmail.com",
+        password: "1234",
+        role: "farmer",
+        phone: "+91 00000 00000",
+        village: "Test Village",
+        district: "Test District",
+        state: "Test State",
+        landSize: 2.0,
+        crops: ["Test Crop"],
+        kycStatus: "Completed",
+        createdAt: new Date().toISOString()
     }
 ];
 
@@ -114,6 +129,22 @@ router.post('/register', (req, res) => {
         }),
         createdAt: new Date().toISOString()
     };
+
+    registeredUsers.push({
+        userId: "FARMER-9999",
+        name: "Rajesh (Test)",
+        email: "rajesh@gmail.com",
+        password: "1234",
+        role: "farmer",
+        phone: "+91 00000 00000",
+        village: "Test Village",
+        district: "Test District",
+        state: "Test State",
+        landSize: 2.0,
+        crops: ["Test Crop"],
+        kycStatus: "Completed",
+        createdAt: new Date().toISOString()
+    });
 
     registeredUsers.push(newUser);
 

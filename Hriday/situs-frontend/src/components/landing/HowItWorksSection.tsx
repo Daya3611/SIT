@@ -48,7 +48,7 @@ export function HowItWorksSection() {
                     >
                         THE_PROCESS
                     </motion.div>
-                    <h2 className="text-4xl md:text-5xl font-bold text-[#2d3429]">How AgriPayChain Works</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold text-[#2d3429]">How DBT-Connect Works</h2>
                     <p className="text-neutral-500 mt-6 max-w-xl mx-auto">
                         A simple, transparent workflow designed for the modern farmer.
                     </p>

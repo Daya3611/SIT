@@ -1,5 +1,11 @@
 import express from 'express';
+import Razorpay from 'razorpay';
 const router = express.Router();
+
+const razorpay = new Razorpay({
+    key_id: "rzp_test_SLRCjdRc57Kz4i",
+    key_secret: "3UK071mh1CerCtFr3A8CEnpC"
+});
 
 let products = [
     {
@@ -141,6 +147,22 @@ router.get('/products', (req, res) => {
         filtered = products.filter(p => p.category.toLowerCase() === category.toLowerCase());
     }
     res.json({ success: true, count: filtered.length, data: filtered });
+});
+
+router.post('/create-razorpay-order', async (req, res) => {
+    const { amount } = req.body;
+    try {
+        const options = {
+            amount: amount * 100, // amount in smallest currency unit
+            currency: "INR",
+            receipt: `receipt_${Date.now()}`
+        };
+        const order = await razorpay.orders.create(options);
+        res.json({ success: true, order });
+    } catch (err) {
+        console.error("Razorpay Error:", err);
+        res.status(500).json({ success: false, message: 'Could not create razorpay order' });
+    }
 });
 
 router.post('/order', (req, res) => {

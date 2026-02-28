@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from schemas import TransactionInput
 from inference import predict_with_explanation
-from price_anomaly import detect_price_anomaly
+from mandi_price.price_anomaly import detect_price_anomaly
 
 app = FastAPI()
 

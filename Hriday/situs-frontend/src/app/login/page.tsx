@@ -71,7 +71,7 @@ export default function LoginPage() {
                 <div className="relative z-10">
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className="w-10 h-10 bg-[#7c9473] rounded-xl flex items-center justify-center text-white font-black text-xs">A</div>
-                        <span className="font-black tracking-tighter text-lg text-white">AgriPayChain</span>
+                        <span className="font-black tracking-tighter text-lg text-white">DBT-Connect</span>
                     </Link>
                 </div>
 
@@ -99,7 +99,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className="relative z-10 text-[10px] font-bold text-white/20 uppercase tracking-widest">
-                    © 2026 AgriPayChain • SIT Project
+                    © 2026 DBT-Connect • SIT Project
                 </div>
             </div>
 
@@ -110,7 +110,7 @@ export default function LoginPage() {
                     <div className="lg:hidden flex items-center gap-3 mb-4">
                         <Link href="/" className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-[#7c9473] rounded-xl flex items-center justify-center text-white font-black text-xs">A</div>
-                            <span className="font-black tracking-tighter text-lg text-[#2d3429]">AgriPayChain</span>
+                            <span className="font-black tracking-tighter text-lg text-[#2d3429]">DBT-Connect</span>
                         </Link>
                     </div>
 
@@ -122,7 +122,7 @@ export default function LoginPage() {
                         <p className="text-neutral-400 text-sm font-medium mt-2">
                             {mode === "login"
                                 ? "Sign in to access your dashboard, schemes, and marketplace."
-                                : "Join AgriPayChain as a Farmer or Buyer to get started."
+                                : "Join DBT-Connect as a Farmer or Buyer to get started."
                             }
                         </p>
                     </div>

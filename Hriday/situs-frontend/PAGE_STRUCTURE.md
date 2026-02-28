@@ -1,6 +1,6 @@
-# AgriPayChain - Page Structure
+# DBT-Connect - Page Structure
 
-This document outlines the routing and page structure of the AgriPayChain platform.
+This document outlines the routing and page structure of the DBT-Connect platform.
 
 ## Public Web Experience (Multi-Page)
 The public site is now split into dedicated SEO-optimized pages for better performance and clarity.

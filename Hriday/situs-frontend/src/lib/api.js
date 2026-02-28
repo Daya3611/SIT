@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL = "http://localhost:3001/api";
 
 export const api = {
     // User Profile
@@ -17,6 +17,14 @@ export const api = {
         body: JSON.stringify(profile)
     }).then(res => res.json()),
 
+    // Land Records
+    getLandRecords: (farmerId) => fetch(`${API_BASE_URL}/land-records/farmer/${farmerId}`).then(res => res.json()),
+    addLandRecord: (data) => fetch(`${API_BASE_URL}/land-records`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).then(res => res.json()),
+
     // Loans/Applications
     getApplications: (farmerId) => fetch(`${API_BASE_URL}/loans/farmer/${farmerId}`).then(res => res.json()),
     applyForScheme: (data) => fetch(`${API_BASE_URL}/loans/apply`, {
@@ -31,5 +39,10 @@ export const api = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
-    }).then(res => res.json())
+    }).then(res => res.json()),
+    createRazorpayOrder: (amount) => fetch(`${API_BASE_URL}/marketplace/create-razorpay-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount })
+    }).then(res => res.json()),
 };

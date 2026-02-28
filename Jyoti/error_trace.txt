@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "C:\Users\Dayanand\Desktop\SIT\Jyoti\run.py", line 3, in <module>
+    import main
+  File "C:\Users\Dayanand\Desktop\SIT\Jyoti\main.py", line 4, in <module>
+    from mandi_price.price_anomaly import detect_price_anomaly
+  File "C:\Users\Dayanand\Desktop\SIT\Jyoti\mandi_price\price_anomaly.py", line 7, in <module>
+    pipeline = joblib.load("mandi_price/price_model.pkl")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dayanand\AppData\Local\Programs\Python\Python311\Lib\site-packages\joblib\numpy_pickle.py", line 749, in load
+    obj = _unpickle(
+          ^^^^^^^^^^
+  File "C:\Users\Dayanand\AppData\Local\Programs\Python\Python311\Lib\site-packages\joblib\numpy_pickle.py", line 626, in _unpickle
+    obj = unpickler.load()
+          ^^^^^^^^^^^^^^^^
+  File "C:\Users\Dayanand\AppData\Local\Programs\Python\Python311\Lib\pickle.py", line 1213, in load
+    dispatch[key[0]](self)
+  File "C:\Users\Dayanand\AppData\Local\Programs\Python\Python311\Lib\pickle.py", line 1538, in load_stack_global
+    self.append(self.find_class(module, name))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dayanand\AppData\Local\Programs\Python\Python311\Lib\pickle.py", line 1582, in find_class
+    return _getattribute(sys.modules[module], name)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Dayanand\AppData\Local\Programs\Python\Python311\Lib\pickle.py", line 331, in _getattribute
+    raise AttributeError("Can't get attribute {!r} on {!r}"
+AttributeError: Can't get attribute '_RemainderColsList' on <module 'sklearn.compose._column_transformer' from 'C:\\Users\\Dayanand\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\sklearn\\compose\\_column_transformer.py'>

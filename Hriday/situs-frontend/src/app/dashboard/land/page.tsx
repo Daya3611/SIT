@@ -66,7 +66,7 @@ export default function LandRecordsPage() {
                             <span className="text-xs font-black text-[#7c9473] uppercase tracking-widest">Global Trust Index: 100% Secure</span>
                         </div>
                         <p className="text-sm text-[#2d3429]/60 font-medium leading-relaxed">
-                            All landed properties uploaded to AgriPayChain are anchored to an immutable ledger.
+                            All landed properties uploaded to DBT-Connect are anchored to an immutable ledger.
                             This ensures your land rights are protected and verifiable anywhere in the world.
                         </p>
                     </div>

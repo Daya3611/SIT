@@ -8,7 +8,7 @@ export function Footer() {
                 <div className="space-y-6">
                     <div className="text-white font-black tracking-tighter text-2xl flex items-center gap-2">
                         <div className="w-8 h-8 bg-[#7c9473] rounded-lg"></div>
-                        AgriPayChain
+                        DBT-Connect
                     </div>
                     <p className="text-white/40 text-sm leading-relaxed">
                         Building a foundation of trust for the global agricultural supply chain through tamper-proof data.

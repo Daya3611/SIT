@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Menu, X, ArrowRight, Wallet, CreditCard, Target, FileText, Info, ShieldCheck, Store, LogOut, User } from "lucide-react"
+import { Menu, X, ArrowRight, Wallet, CreditCard, Target, FileText, Info, ShieldCheck, Store, LogOut, User, Sprout } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/lib/AuthContext"
 
@@ -17,10 +17,10 @@ const MAIN_LINKS = [
 ]
 
 const MENU_LINKS = [
+    { name: "Soil Analyzer", href: "/dashboard/soil", icon: Sprout, desc: "AI-powered soil health telemetry." },
     { name: "Loan Portal", href: "/dashboard/kcc", icon: Wallet, desc: "Agri-Business & Crop Loans." },
     { name: "Marketplace", href: "/marketplace", icon: Store, desc: "Buy verified seeds and tools." },
     { name: "Document Vault", href: "/dashboard/vault", icon: FileText, desc: "Secure digital locker." },
-    { name: "Status Tracker", href: "/dashboard/status", icon: Target, desc: "Track application progress." },
 ]
 
 export function NavBar() {
@@ -80,7 +80,7 @@ export function NavBar() {
                             "font-black tracking-tighter text-lg hidden sm:block",
                             isHomePage && !isScrolled ? "text-white" : "text-[#2d3429]"
                         )}>
-                            AgriPayChain
+                            DBT-Connect
                         </span>
                     </Link>
 
@@ -109,7 +109,7 @@ export function NavBar() {
                     <div className="flex items-center gap-4">
                         {isAuthenticated ? (
                             <div className="hidden sm:flex items-center gap-3">
-                                <Link href="/dashboard" className="flex items-center gap-3 px-4 py-2.5 bg-white/10 backdrop-blur-lg rounded-xl border border-white/20">
+                                <Link href="/profile" className="flex items-center gap-3 px-4 py-2.5 bg-white/10 backdrop-blur-lg rounded-xl border border-white/20">
                                     <div className="w-8 h-8 rounded-full bg-[#7c9473]/20 flex items-center justify-center overflow-hidden">
                                         <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'User'}`} alt="Avatar" className="w-full h-full object-cover" />
                                     </div>

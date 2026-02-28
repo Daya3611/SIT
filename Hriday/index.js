@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
@@ -14,7 +14,7 @@ app.use(express.json()); // Parse JSON bodies
 
 // Basic Health Check Route
 app.get('/', (req, res) => {
-    res.json({ status: 'success', message: 'AgriPayChain Backend is running!' });
+    res.json({ status: 'success', message: 'DBT-Connect Backend is running!' });
 });
 
 import landRecordsRoute from './routes/landRecords.js';

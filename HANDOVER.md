@@ -1,4 +1,4 @@
-# AgriPayChain — Project Handover Document
+# DBT-Connect — Project Handover Document
 
 **Date:** 27 February 2026  
 **Prepared by:** Hriday  
@@ -8,7 +8,7 @@
 
 ## 1. Project Overview
 
-**AgriPayChain** is a web platform that provides an advisory board for loans and subsidies targeted at farmers. The platform aims to simplify access to government schemes, check eligibility, and track loan/subsidy status in one place.
+**DBT-Connect** is a web platform that provides an advisory board for loans and subsidies targeted at farmers. The platform aims to simplify access to government schemes, check eligibility, and track loan/subsidy status in one place.
 
 ---
 

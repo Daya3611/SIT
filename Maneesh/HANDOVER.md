@@ -1,7 +1,7 @@
-# AgriPayChain - Maneesh's Handover Document
+# DBT-Connect - Maneesh's Handover Document
 
 ## 1. Project Overview & Context
-We are building **AgriPayChain**, an agricultural transaction and financial visibility infrastructure designed for production-grade scale.
+We are building **DBT-Connect**, an agricultural transaction and financial visibility infrastructure designed for production-grade scale.
 
 **Core Philosophy:**
 - **Blockchain:** Used *strictly* as an immutable integrity anchor storing hashes and event proofs—no raw data, no token economy, no speculative DeFi logic.

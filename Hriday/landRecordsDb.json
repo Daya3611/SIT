@@ -1,0 +1,234 @@
+[
+  {
+    "recordId": "LR-KRN-001",
+    "farmerId": "FARMER-8821",
+    "farmerName": "Rajesh Kumar",
+    "surveyNumber": "Khasra-772/4",
+    "village": "Karnal",
+    "district": "Karnal",
+    "state": "Haryana",
+    "totalArea": 1.5,
+    "unit": "Hectares",
+    "soilType": "Alluvial",
+    "irrigationSource": "Tubewell",
+    "landClassification": "Agricultural",
+    "currentCrop": "Wheat (Rabi 2025-26)",
+    "previousCrops": [
+      "Rice (Kharif 2025)",
+      "Wheat (Rabi 2024-25)",
+      "Rice (Kharif 2024)"
+    ],
+    "gpsCoordinates": {
+      "lat": 29.6856,
+      "lng": 76.9905
+    },
+    "registrationDate": "2018-03-15",
+    "lastMutationDate": "2024-08-22",
+    "encumbrances": "None",
+    "verificationStatus": "Blockchain Verified",
+    "txHash": "0x82f9a1...3d7e"
+  },
+  {
+    "recordId": "LR-BBK-002",
+    "farmerId": "FARMER-4412",
+    "farmerName": "Sunita Devi",
+    "surveyNumber": "Lot-223/B",
+    "village": "Barabanki",
+    "district": "Barabanki",
+    "state": "Uttar Pradesh",
+    "totalArea": 0.8,
+    "unit": "Hectares",
+    "soilType": "Clay Loam",
+    "irrigationSource": "Canal",
+    "landClassification": "Agricultural",
+    "currentCrop": "Lentil (Rabi 2025-26)",
+    "previousCrops": [
+      "Rice (Kharif 2025)",
+      "Peas (Rabi 2024-25)",
+      "Rice (Kharif 2024)"
+    ],
+    "gpsCoordinates": {
+      "lat": 26.926,
+      "lng": 81.2348
+    },
+    "registrationDate": "2020-06-10",
+    "lastMutationDate": "2025-01-05",
+    "encumbrances": "None",
+    "verificationStatus": "Blockchain Verified",
+    "txHash": "0x4b1c8e...9f2a"
+  },
+  {
+    "recordId": "LR-NSK-003",
+    "farmerId": "FARMER-7763",
+    "farmerName": "Mahesh Patil",
+    "surveyNumber": "Survey-445/1A",
+    "village": "Nashik Rural",
+    "district": "Nashik",
+    "state": "Maharashtra",
+    "totalArea": 3.2,
+    "unit": "Hectares",
+    "soilType": "Black Cotton",
+    "irrigationSource": "Drip Irrigation",
+    "landClassification": "Agricultural (Horticulture)",
+    "currentCrop": "Grapes (Thompson Seedless)",
+    "previousCrops": [
+      "Onion (Rabi 2025)",
+      "Grapes (2024)",
+      "Sugarcane (2023-24)"
+    ],
+    "gpsCoordinates": {
+      "lat": 20.0113,
+      "lng": 73.79
+    },
+    "registrationDate": "2015-11-30",
+    "lastMutationDate": "2023-09-18",
+    "encumbrances": "KCC Lien — BOI",
+    "verificationStatus": "Blockchain Verified",
+    "txHash": "0x7d3f22...b8c1"
+  },
+  {
+    "recordId": "LR-LDH-004",
+    "farmerId": "FARMER-3318",
+    "farmerName": "Gurpreet Singh",
+    "surveyNumber": "Khasra-1102/7",
+    "village": "Ludhiana Rural",
+    "district": "Ludhiana",
+    "state": "Punjab",
+    "totalArea": 5,
+    "unit": "Hectares",
+    "soilType": "Sandy Loam",
+    "irrigationSource": "Tubewell + Solar Pump",
+    "landClassification": "Agricultural",
+    "currentCrop": "Wheat (PBW-725, Rabi 2025-26)",
+    "previousCrops": [
+      "Rice (PR-126, Kharif 2025)",
+      "Wheat (Rabi 2024-25)",
+      "Potato (Nov-Feb 2024)"
+    ],
+    "gpsCoordinates": {
+      "lat": 30.9009,
+      "lng": 75.8572
+    },
+    "registrationDate": "2010-04-22",
+    "lastMutationDate": "2025-02-10",
+    "encumbrances": "None",
+    "verificationStatus": "Blockchain Verified",
+    "txHash": "0xa9e5c3...1d4f"
+  },
+  {
+    "recordId": "LR-TNJ-005",
+    "farmerId": "FARMER-5590",
+    "farmerName": "Lakshmi Narasimhan",
+    "surveyNumber": "Patta-338/2C",
+    "village": "Thanjavur",
+    "district": "Thanjavur",
+    "state": "Tamil Nadu",
+    "totalArea": 1.2,
+    "unit": "Hectares",
+    "soilType": "Red Laterite",
+    "irrigationSource": "Canal + Borewell",
+    "landClassification": "Wet Land (Nanjai)",
+    "currentCrop": "Rice (ADT-43, Samba 2025-26)",
+    "previousCrops": [
+      "Rice (Kuruvai 2025)",
+      "Banana (2024-25)",
+      "Rice (Samba 2024-25)"
+    ],
+    "gpsCoordinates": {
+      "lat": 10.787,
+      "lng": 79.1378
+    },
+    "registrationDate": "2019-08-05",
+    "lastMutationDate": "2024-11-30",
+    "encumbrances": "None",
+    "verificationStatus": "Blockchain Verified",
+    "txHash": "0xc2d6f1...5e8b"
+  },
+  {
+    "recordId": "LR-DHD-006",
+    "farmerId": "FARMER-6674",
+    "farmerName": "Ramesh Baria",
+    "surveyNumber": "RoR-567/3",
+    "village": "Dahod",
+    "district": "Dahod",
+    "state": "Gujarat",
+    "totalArea": 0.5,
+    "unit": "Hectares",
+    "soilType": "Medium Black",
+    "irrigationSource": "Rainfed",
+    "landClassification": "Agricultural (Dryland)",
+    "currentCrop": "Tur Dal (Kharif 2025-26)",
+    "previousCrops": [
+      "Maize (Kharif 2025)",
+      "Castor (Rabi 2024-25)",
+      "Maize (Kharif 2024)"
+    ],
+    "gpsCoordinates": {
+      "lat": 22.8374,
+      "lng": 74.2536
+    },
+    "registrationDate": "2021-02-14",
+    "lastMutationDate": "2024-07-11",
+    "encumbrances": "None",
+    "verificationStatus": "Blockchain Verified",
+    "txHash": "0xe8a4b7...2c9d"
+  },
+  {
+    "recordId": "LR-SMP-007",
+    "farmerId": "FARMER-2201",
+    "farmerName": "Anita Kumari",
+    "surveyNumber": "Khata-89/1",
+    "village": "Samastipur",
+    "district": "Samastipur",
+    "state": "Bihar",
+    "totalArea": 0.3,
+    "unit": "Hectares",
+    "soilType": "Alluvial (Gangetic)",
+    "irrigationSource": "Tubewell (Shared)",
+    "landClassification": "Agricultural",
+    "currentCrop": "Vegetables (Mixed — Cauliflower, Tomato)",
+    "previousCrops": [
+      "Rice (Kharif 2025)",
+      "Wheat (Rabi 2024-25)",
+      "Rice (Kharif 2024)"
+    ],
+    "gpsCoordinates": {
+      "lat": 25.8607,
+      "lng": 85.7813
+    },
+    "registrationDate": "2022-09-20",
+    "lastMutationDate": "2025-01-28",
+    "encumbrances": "Pending Digitization",
+    "verificationStatus": "Pending Verification",
+    "txHash": null
+  },
+  {
+    "recordId": "LR-UDR-008",
+    "farmerId": "FARMER-9945",
+    "farmerName": "Devendra Joshi",
+    "surveyNumber": "Girdawari-1045/A",
+    "village": "Udaipur Rural",
+    "district": "Udaipur",
+    "state": "Rajasthan",
+    "totalArea": 2,
+    "unit": "Hectares",
+    "soilType": "Arid Sandy",
+    "irrigationSource": "Drip + Rainwater Harvesting",
+    "landClassification": "Agricultural",
+    "currentCrop": "Cumin (Rabi 2025-26)",
+    "previousCrops": [
+      "Soybean (Kharif 2025)",
+      "Wheat (Rabi 2024-25)",
+      "Garlic (Rabi 2024-25)"
+    ],
+    "gpsCoordinates": {
+      "lat": 24.5854,
+      "lng": 73.7125
+    },
+    "registrationDate": "2017-12-01",
+    "lastMutationDate": "2025-02-05",
+    "encumbrances": "KCC Lien — UCO Bank",
+    "verificationStatus": "Blockchain Verified",
+    "txHash": "0xf1b2d9...6a3e"
+  }
+]
