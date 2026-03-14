@@ -1,0 +1,22 @@
+﻿python :   File "<string>", 
+line 1
+At line:1 char:49
++ ... ing]::UTF8; python -c 
+"import traceback, sys; try: 
+import main; excep ...
++                 ~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo          :  
+   NotSpecified: (  File "<st  
+  ring>", line 1:String) [],   
+  RemoteException
+    + FullyQualifiedErrorId :  
+   NativeCommandError
+ 
+    import traceback, sys; 
+try: import main; except 
+Exception as e: 
+traceback.print_exc()
+                           ^^^
+SyntaxError: invalid syntax
